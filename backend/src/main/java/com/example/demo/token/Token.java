@@ -1,5 +1,6 @@
-package com.example.demo.data;
+package com.example.demo.token;
 
+import com.example.demo.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Token {
     @Id
     @GeneratedValue
-    private String id;
+    private Integer id;
     private String token;
     @OneToOne
     private User user;
