@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ManualTestSecurityController {
 
-    @GetMapping("/test")
+    @GetMapping("/testAuth")
     public String testSecurity(){
         return "Secured endpoint";
+    }
+
+    @GetMapping("/testNoAuth")
+    public String testNoSecurity(){
+        return "Unsecured endpoint";
     }
 }
