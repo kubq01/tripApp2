@@ -1,13 +1,4 @@
-function LoginForm() {
-    //const [username, setUsername] = useState('');
-    //const [password, setPassword] = useState('');
-
-    const handleLogin = async () => {
-        // You will connect to the Spring Boot API here
-        // You can use libraries like axios or fetch for making API requests
-        // Send a POST request with the username and password to your Spring Boot backend
-        // Handle the response accordingly, e.g., show a success message or an error message
-    };
+function RegisterForm() {
 
     return (
         <div className="App">
@@ -34,17 +25,28 @@ function LoginForm() {
                                                         </div>
                                                         <form className="text-center" method="post">
                                                             <div className="mb-3"><input className="form-control"
-                                                                                         type="email" name="email"
-                                                                                         placeholder="Email"/></div>
+                                                                                         type="email" name="firstname"
+                                                                                         placeholder="First Name"/>
+                                                            </div>
                                                             <div className="mb-3"><input className="form-control"
-                                                                                         type="password" name="password"
-                                                                                         placeholder="Password"/></div>
+                                                                                         type="password" name="lastname"
+                                                                                         placeholder="Last Name"
+                                                                                         style={{marginBottom: "13px"}}/>
+                                                            </div>
+                                                            <div><input
+                                                                className="form-control" type="password" name="email"
+                                                                placeholder="Email"
+                                                                style={{marginBottom: "14px"}}/>
+                                                            </div>
+                                                            <div><input
+                                                                className="form-control" type="password" name="password"
+                                                                placeholder="Password"/></div>
                                                             <div className="mb-3">
                                                                 <button className="btn btn-primary d-block w-100"
-                                                                        type="submit">Login
+                                                                        type="submit">Register
                                                                 </button>
                                                             </div>
-                                                            <p className="text-muted">Forgot your password?</p>
+                                                            <p style={{marginBottom: "0px"}}>Login</p>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -58,7 +60,7 @@ function LoginForm() {
                 </div>
             </header>
         </div>
-    );
+);
 }
 
-export default LoginForm;
+export default RegisterForm;

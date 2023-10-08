@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import LoginForm from "./login/LoginForm.tsx";
+import LoginForm from "./auth/LoginForm.tsx";
 
 
 function App() {
