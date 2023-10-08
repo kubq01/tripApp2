@@ -40,7 +40,8 @@ function RegisterForm() {
                                                             </div>
                                                             <div><input
                                                                 className="form-control" type="password" name="password"
-                                                                placeholder="Password"/></div>
+                                                                placeholder="Password"
+                                                                style={{marginBottom: "14px"}}/></div>
                                                             <div className="mb-3">
                                                                 <button className="btn btn-primary d-block w-100"
                                                                         type="submit">Register

@@ -1,3 +1,5 @@
+import background from "./../static/forest_bg.jpg";
+import background2 from "./../background.png";
 function LoginForm() {
     //const [username, setUsername] = useState('');
     //const [password, setPassword] = useState('');
@@ -10,8 +12,8 @@ function LoginForm() {
     };
 
     return (
-        <div className="App">
-            <header className="masthead">
+        <div className="App" style={{backgroundImage: 'url(${background2})' }}>
+            <header className="masthead" >
                 <div className="intro-body">
                     <div className="container">
                         <div className="row">
@@ -44,8 +46,6 @@ function LoginForm() {
                                                                         type="submit">Login
                                                                 </button>
                                                             </div>
-                                                            <p className="text-muted"
-                                                               style={{ marginBottom: "11px" }}>Forgot your password?</p>
                                                             <p style={{ marginBottom: "0px" }}>Register</p>
                                                         </form>
                                                     </div>
