@@ -1,4 +1,40 @@
+import {useEffect, useState} from "react";
+import User from "./User.tsx";
+
 function UserProfile() {
+
+    const LOADING = "loading..."
+
+    const [user, setUser] = useState(new User(LOADING,LOADING,LOADING))
+
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        // Fetch user data using Bearer token
+        if (token) {
+            fetch('http://localhost:8081/user/my_profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const user = new User(data.firstName, data.lastName, data.email);
+                    setUser(user)
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        }else
+            this.router.navigate("/")
+
+    })
 
     return (
         <div className="App">
@@ -25,9 +61,9 @@ function UserProfile() {
                                                         <form className="text-center" method="post">
                                                             <div className="mb-3"></div>
                                                             <div className="mb-3"></div>
-                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>First Name:&nbsp;</p>
-                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>Last Name:&nbsp;</p>
-                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>Email:&nbsp;</p>
+                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>First Name: {user.getFirstName()}</p>
+                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>Last Name: {user.getLastName()}</p>
+                                                            <p style={{ marginBottom: "0px", textAlign: "left" }}>Email: {user.getEmail()}</p>
                                                         </form>
                                                     </div>
                                                 </div>
