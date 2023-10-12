@@ -1,6 +1,6 @@
 import background from "./../static/forest_bg.jpg";
 import background2 from "./../background.png";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +10,13 @@ function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if(token)
+            navigate("/homescreen")
+    })
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -29,7 +36,7 @@ function LoginForm() {
             const token = response.data.accessToken;
             localStorage.setItem('token', token);
 
-            navigate('/my_profile');
+            navigate('/homescreen');
         } catch (error) {
             setError('Invalid email or password. Please try again.');
         }

@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginForm from "./auth/LoginForm.tsx";
 import RegisterForm from "./auth/RegisterForm.tsx";
 import UserProfile from "./user/UserProfile.tsx";
+import HomeScreen from "./core/HomeScreen.tsx";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +16,7 @@ root.render(
             <Routes>
                 <Route index element={<App />} />
                 <Route path="register" element={<RegisterForm />} />
-                <Route path="my_profile" element={<UserProfile />} />
+                <Route path="homescreen" element={<HomeScreen />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

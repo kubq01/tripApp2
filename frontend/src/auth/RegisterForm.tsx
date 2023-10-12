@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import HOST from "../config/apiConst.tsx";
@@ -12,6 +12,13 @@ function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const role = "USER"
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if(token)
+            navigate("/homescreen")
+    })
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -31,11 +38,10 @@ function RegisterForm() {
                 }
             });
 
-            const {token} = response.data;
-
+            const token = response.data.accessToken;
             localStorage.setItem('token', token);
 
-            navigate('/my_profile');
+            navigate('/homescreen');
         } catch (error) {
             alert("Something went wrong. Try again")
         }

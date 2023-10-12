@@ -1,11 +1,14 @@
 import {useEffect, useState} from "react";
 import User from "./User.tsx";
+import NavBar from "../core/NavBar.tsx";
+import {useNavigate} from "react-router-dom";
 
 function UserProfile() {
 
     const LOADING = "loading..."
 
     const [user, setUser] = useState(new User(LOADING,LOADING,LOADING))
+    const navigate = useNavigate();
 
 
 
@@ -32,22 +35,12 @@ function UserProfile() {
                     console.error('Error fetching user data:', error);
                 });
         }else
-            this.router.navigate("/")
+            navigate("/")
 
     })
 
     return (
-        <div className="App">
-            <header className="masthead">
-                <div className="intro-body">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-8 mx-auto">
-                                <section className="position-relative py-4 py-xl-5">
-                                    <div className="container">
-                                        <div className="row d-flex justify-content-center">
-                                            <div className="col-md-6 col-xl-4">
-                                                <div className="card mb-5">
+
                                                     <div className="card-body d-flex flex-column align-items-center">
                                                         <div
                                                             className="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
@@ -66,17 +59,7 @@ function UserProfile() {
                                                             <p style={{ marginBottom: "0px", textAlign: "left" }}>Email: {user.getEmail()}</p>
                                                         </form>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-        </div>
+
     );
 }
 
