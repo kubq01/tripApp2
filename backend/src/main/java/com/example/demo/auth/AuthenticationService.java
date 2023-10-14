@@ -4,6 +4,7 @@ import com.example.demo.token.Token;
 import com.example.demo.token.TokenRepository;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
+import com.example.demo.user.UsernameTakenException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +22,9 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
-  public AuthenticationResponse register(RegisterRequest request) {
+  public AuthenticationResponse register(RegisterRequest request) throws UsernameTakenException{
+    if(repository.findByEmail(request.getEmail()).isPresent())
+      throw new UsernameTakenException("Email is already being used by another account");
     var user = User.builder()
         .firstName(request.getFirstname())
         .lastName(request.getLastname())

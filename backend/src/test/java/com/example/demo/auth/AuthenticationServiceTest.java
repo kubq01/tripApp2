@@ -5,6 +5,7 @@ import com.example.demo.token.TokenRepository;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
+import com.example.demo.user.UsernameTakenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -44,7 +46,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    public void testRegister() {
+    public void testRegister() throws UsernameTakenException {
         // Arrange
         RegisterRequest request = new RegisterRequest("John", "Doe", "john.doe@example.com", "password", Role.USER);
         User user = new User(1,"John", "Doe", "john.doe@example.com", "password", Role.USER);
@@ -76,6 +78,18 @@ class AuthenticationServiceTest {
         verify(authenticationManager, times(1)).authenticate(any());
         verify(tokenRepository, times(1)).save(any(Token.class));
         assertEquals("jwtToken", response.getAccessToken());
+    }
+
+    @Test
+    public void testRegisterUsernameTaken() {
+        // Arrange
+        RegisterRequest request = new RegisterRequest("John", "Doe", "existing@example.com", "password", Role.USER);
+        when(userRepository.findByEmail("existing@example.com")).thenReturn(Optional.of(new User()));
+
+        // Act & Assert
+        assertThrows(UsernameTakenException.class, () -> {
+            authenticationService.register(request);
+        });
     }
 
 }

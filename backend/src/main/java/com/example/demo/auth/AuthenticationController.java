@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import com.example.demo.user.UsernameTakenException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,12 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        try {
+            return ResponseEntity.ok(service.register(request));
+        } catch (UsernameTakenException e){
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @PostMapping("/authenticate")
