@@ -1,7 +1,7 @@
 package com.example.demo.user;
 
-import com.example.demo.token.Token;
-import com.example.demo.user.Role;
+import com.example.demo.trip.Trip;
+import com.example.demo.trip.TripInvite;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @Builder
@@ -30,6 +32,15 @@ public class User implements UserDetails {
     private String password;
     private Role role;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Trip> trips = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<TripInvite> invites = new ArrayList<>();
+
+    public void addTrip(Trip trip){
+        trips.add(trip);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()));

@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.auth.AuthenticationService;
 import com.example.demo.auth.RegisterRequest;
+import com.example.demo.trip.Trip;
+import com.example.demo.trip.TripRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +23,8 @@ public class BackendTripApp {
 
     @Bean
     public CommandLineRunner commandLineRunner(
-            AuthenticationService service
+            AuthenticationService service,
+            TripRepository tripRepository
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
@@ -41,6 +44,8 @@ public class BackendTripApp {
                     .role(USER)
                     .build();
             System.out.println("User token: " + service.register(manager).getAccessToken());
+
+
 
         };
     }
