@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<TripEntity> trips = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

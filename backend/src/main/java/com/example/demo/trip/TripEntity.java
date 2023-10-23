@@ -18,7 +18,6 @@ public class TripEntity {
     private Long id;
     private String name;
     @ManyToOne
-    @ToString.Exclude
     private User organizer;
     public TripEntity(String name, User organizer) {
         this.name = name;
