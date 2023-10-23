@@ -23,7 +23,7 @@ public class TripService {
        getCurrectUser()
                 .getTrips()
                 .stream()
-                .forEach(trip -> trips.add(trip));
+                .forEach(trip -> trips.add(TripMapper.INSTANCE.tripEntityToTrip(trip)));
 
         return trips;
     }
@@ -40,10 +40,10 @@ public class TripService {
     }
 
     public void createNewTrip(Trip trip){
-        trip.setOrganizer(getCurrectUser());
-        tripRepository.save(trip);
+        TripEntity tripEntity = new TripEntity(trip.getName(), getCurrectUser());
+        tripRepository.save(tripEntity);
         User currentUser = getCurrectUser();
-        currentUser.addTrip(trip);
+        currentUser.addTrip(tripEntity);
         userRepository.save(currentUser);
 
     }

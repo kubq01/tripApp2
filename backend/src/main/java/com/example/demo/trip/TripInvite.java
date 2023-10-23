@@ -17,7 +17,7 @@ public class TripInvite {
     @GeneratedValue
     private Long id;
     @ManyToOne
-    private Trip trip;
+    private TripEntity trip;
     @ManyToOne
     private User invitedUser;
     @ManyToOne

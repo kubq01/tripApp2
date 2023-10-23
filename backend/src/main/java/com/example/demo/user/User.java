@@ -1,12 +1,9 @@
 package com.example.demo.user;
 
-import com.example.demo.trip.Trip;
+import com.example.demo.trip.TripEntity;
 import com.example.demo.trip.TripInvite;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,12 +30,13 @@ public class User implements UserDetails {
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Trip> trips = new ArrayList<>();
+    private List<TripEntity> trips = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<TripInvite> invites = new ArrayList<>();
 
-    public void addTrip(Trip trip){
+    public void addTrip(TripEntity trip){
         trips.add(trip);
     }
     @Override

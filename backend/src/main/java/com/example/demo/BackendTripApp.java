@@ -8,8 +8,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 import static com.example.demo.user.Role.ADMIN;
 import static com.example.demo.user.Role.USER;
@@ -43,7 +45,21 @@ public class BackendTripApp {
                     .password("password")
                     .role(USER)
                     .build();
-            System.out.println("User token: " + service.register(manager).getAccessToken());
+            String userToken = service.register(manager).getAccessToken();
+            System.out.println("User token: " + userToken);
+
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(userToken);
+
+            Trip trip = Trip.builder()
+                    .name("testTripForUser")
+                    .build();
+
+            HttpEntity<Trip> request = new HttpEntity<>(trip, headers);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
 
 
