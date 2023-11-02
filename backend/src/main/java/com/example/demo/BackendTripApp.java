@@ -36,7 +36,8 @@ public class BackendTripApp {
                     .password("password")
                     .role(ADMIN)
                     .build();
-            System.out.println("Admin token: " + service.register(admin).getAccessToken());
+            String adminToken = service.register(admin).getAccessToken();
+            System.out.println("Admin token: " + adminToken);
 
             var manager = RegisterRequest.builder()
                     .firstname("User")
@@ -59,6 +60,21 @@ public class BackendTripApp {
 
             HttpEntity<Trip> request = new HttpEntity<>(trip, headers);
             RestTemplate restTemplate = new RestTemplate();
+            restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
+
+            Trip trip3 = Trip.builder()
+                    .name("testTripForUser3")
+                    .build();
+
+            request = new HttpEntity<>(trip3, headers);
+            restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
+
+            Trip trip2 = Trip.builder()
+                    .name("testTripForUser2")
+                    .build();
+
+            headers.setBearerAuth(adminToken);
+            request = new HttpEntity<>(trip2, headers);
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
 

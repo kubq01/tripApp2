@@ -20,6 +20,4 @@ public class TripInvite {
     private TripEntity trip;
     @ManyToOne
     private User invitedUser;
-    @ManyToOne
-    private User organizer;
 }

@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import User from "./User.tsx";
 import NavBar from "../core/NavBar.tsx";
 import {useNavigate} from "react-router-dom";
+import {Box, Card, CardContent, Typography} from "@mui/material";
+import {dark} from "@mui/material/styles/createPalette";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function UserProfile() {
 
@@ -16,6 +19,7 @@ function UserProfile() {
 
         // Fetch user data using Bearer token
         if (token) {
+            console.log(localStorage.getItem('token') + ' user')
             fetch('http://localhost:8081/user/my_profile', {
                 method: 'GET',
                 headers: {
@@ -38,6 +42,7 @@ function UserProfile() {
 
     }, [])
 
+    /*
     return (
 
         <div className="card-body d-flex flex-column align-items-center">
@@ -60,6 +65,35 @@ function UserProfile() {
         </div>
 
     );
+
+     */
+
+    return (
+        <Box>
+            <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
+                <CardContent className="px-5 py-5 d-flex flex-column align-items-center">
+                    <div
+                        className="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                             height="1em" fill="currentColor" viewBox="0 0 16 16"
+                             className="bi bi-person">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
+                        </svg>
+                    </div>
+                    <Typography className="px-2" sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+                        First Name: {user.getFirstName()}
+                    </Typography>
+                    <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+                        Last Name: {user.getLastName()}
+                    </Typography>
+                    <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
+                        Email: {user.getEmail()}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Box>
+    )
 }
 
 export default UserProfile;
