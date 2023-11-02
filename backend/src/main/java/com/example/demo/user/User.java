@@ -35,10 +35,14 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<TripInvite> invites = new ArrayList<>();
+    private List<TripEntity> invites = new ArrayList<>();
 
     public void addTrip(TripEntity trip){
         trips.add(trip);
+    }
+
+    public void invite(TripEntity trip){
+        invites.add(trip);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

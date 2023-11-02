@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.assertThrows;
@@ -49,7 +50,7 @@ class AuthenticationServiceTest {
     public void testRegister() throws UsernameTakenException {
         // Arrange
         RegisterRequest request = new RegisterRequest("John", "Doe", "john.doe@example.com", "password", Role.USER);
-        User user = new User(1,"John", "Doe", "john.doe@example.com", "password", Role.USER);
+        User user = new User(1,"John", "Doe", "john.doe@example.com", "password", Role.USER, Collections.emptyList(), Collections.emptyList());
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
         when(userRepository.save(ArgumentMatchers.any())).thenReturn(user);
         when(jwtService.generateToken(anyMap(), ArgumentMatchers.any())).thenReturn("jwtToken");
@@ -67,7 +68,7 @@ class AuthenticationServiceTest {
     public void testAuthenticate() {
         // Arrange
         AuthenticationRequest request = new AuthenticationRequest("john.doe@example.com", "password");
-        User user = new User(1,"John", "Doe", "john.doe@example.com", "password", Role.USER);
+        User user = new User(1,"John", "Doe", "john.doe@example.com", "password", Role.USER, Collections.emptyList(), Collections.emptyList());
         when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
         when(jwtService.generateToken(anyMap(), any(User.class))).thenReturn("jwtToken");
 

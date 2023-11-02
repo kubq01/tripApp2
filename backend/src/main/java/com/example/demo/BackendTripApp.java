@@ -55,6 +55,7 @@ public class BackendTripApp {
             headers.setBearerAuth(userToken);
 
             Trip trip = Trip.builder()
+                    .id(1L)
                     .name("testTripForUser")
                     .build();
 
@@ -63,6 +64,7 @@ public class BackendTripApp {
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
             Trip trip3 = Trip.builder()
+                    .id(3L)
                     .name("testTripForUser3")
                     .build();
 
@@ -70,6 +72,7 @@ public class BackendTripApp {
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
             Trip trip2 = Trip.builder()
+                    .id(2L)
                     .name("testTripForUser2")
                     .build();
 

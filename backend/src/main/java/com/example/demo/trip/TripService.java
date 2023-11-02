@@ -4,11 +4,13 @@ import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,12 +31,12 @@ public class TripService {
     }
 
     @Transactional
-    List<TripInvite> findTripInvitesForUser(){
-        List<TripInvite> invites = new ArrayList<>();
+    List<Trip> findTripInvitesForUser(){
+        List<Trip> invites = new ArrayList<>();
         getCurrectUser()
                 .getInvites()
                 .stream()
-                .forEach(invite -> invites.add(invite));
+                .forEach(invite -> invites.add(TripMapper.INSTANCE.tripEntityToTrip(invite)));
 
         return invites;
     }
@@ -52,5 +54,22 @@ public class TripService {
         return (User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
+    }
+
+    public String inviteUser(String userEmail, Long id) {
+        Optional<User> userOptional = userRepository.findByEmail(userEmail);
+        Optional<TripEntity> tripOptional = tripRepository.findById(id);
+        if(userOptional.isPresent() && tripOptional.isPresent()) {
+            User user = userOptional.get();
+            TripEntity trip = tripOptional.get();
+            if(user.getInvites().stream().anyMatch(userInvite -> userInvite.getId().equals(trip.getId())))
+                return "User already invited";
+
+            user.invite(trip);
+            userRepository.save(user);
+
+            return "User invited";
+        }
+        return "User or trip not found";
     }
 }

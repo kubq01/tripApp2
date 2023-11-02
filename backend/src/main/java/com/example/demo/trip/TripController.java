@@ -19,7 +19,7 @@ public class TripController {
     }
 
     @GetMapping("/my_invites")
-    public ResponseEntity<List<TripInvite>> getMyInvites(){
+    public ResponseEntity<List<Trip>> getMyInvites(){
         return ResponseEntity.ok(tripService.findTripInvitesForUser());
     }
 
@@ -27,5 +27,10 @@ public class TripController {
     public ResponseEntity<String> createNewTrip(@RequestBody Trip trip){
         tripService.createNewTrip(trip);
         return ResponseEntity.ok("Successfully created new trip");
+    }
+
+    @PostMapping("/invite")
+    public ResponseEntity<String> inviteUser(@RequestParam String userEmail, @RequestParam Long tripId){
+        return ResponseEntity.ok(tripService.inviteUser(userEmail, tripId));
     }
 }

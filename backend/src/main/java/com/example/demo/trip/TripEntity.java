@@ -1,11 +1,11 @@
 package com.example.demo.trip;
 
 import com.example.demo.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,8 +19,11 @@ public class TripEntity {
     private String name;
     @ManyToOne
     private User organizer;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<User> participants;
     public TripEntity(String name, User organizer) {
         this.name = name;
         this.organizer = organizer;
+        this.participants = Collections.emptyList();
     }
 }
