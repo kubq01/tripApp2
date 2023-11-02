@@ -59,11 +59,14 @@ public class TripService {
     public String inviteUser(String userEmail, Long id) {
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
         Optional<TripEntity> tripOptional = tripRepository.findById(id);
-        if(userOptional.isPresent() && tripOptional.isPresent()) {
+        if(userOptional.isPresent() && tripOptional.isPresent() &&
+                tripOptional.get().getOrganizer().getEmail().equals(getCurrectUser().getEmail())) {
             User user = userOptional.get();
             TripEntity trip = tripOptional.get();
             if(user.getInvites().stream().anyMatch(userInvite -> userInvite.getId().equals(trip.getId())))
                 return "User already invited";
+            if(user.getTrips().stream().anyMatch(userTrip -> userTrip.getId().equals(trip.getId())))
+                return "User already in trip";
 
             user.invite(trip);
             userRepository.save(user);
@@ -71,5 +74,25 @@ public class TripService {
             return "User invited";
         }
         return "User or trip not found";
+    }
+
+    @Transactional
+    public void acceptInvite(Long inviteId) {
+        User user = getCurrectUser();
+        user.acceptInvite(inviteId);
+
+        Optional<TripEntity> tripOptional = tripRepository.findById(inviteId);
+        if(tripOptional.isPresent()){
+            TripEntity trip = tripOptional.get();
+            trip.addParticipant(user);
+            tripRepository.save(trip);
+            userRepository.save(user);
+        }
+    }
+
+    public void declineInvite(Long inviteId) {
+        User user = getCurrectUser();
+        user.declineInvite(inviteId);
+        userRepository.save(user);
     }
 }

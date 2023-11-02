@@ -33,4 +33,16 @@ public class TripController {
     public ResponseEntity<String> inviteUser(@RequestParam String userEmail, @RequestParam Long tripId){
         return ResponseEntity.ok(tripService.inviteUser(userEmail, tripId));
     }
+
+    @PostMapping("/accept-invite")
+    public ResponseEntity<String> acceptInvite(@RequestParam Long inviteId){
+        tripService.acceptInvite(inviteId);
+        return ResponseEntity.ok("Invite accepted");
+    }
+
+    @PostMapping ("/decline-invite")
+    public ResponseEntity<String> declineInvite(@RequestParam Long inviteId){
+        tripService.declineInvite(inviteId);
+        return ResponseEntity.ok("Invite declined");
+    }
 }

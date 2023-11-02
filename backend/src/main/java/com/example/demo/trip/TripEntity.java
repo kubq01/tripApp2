@@ -21,6 +21,10 @@ public class TripEntity {
     private User organizer;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<User> participants;
+
+    public void addParticipant(User user){
+        participants.add(user);
+    }
     public TripEntity(String name, User organizer) {
         this.name = name;
         this.organizer = organizer;
