@@ -42,6 +42,10 @@ public class User implements UserDetails {
         invites.add(trip);
     }
 
+    public void deleteFromTrip(TripEntity trip){
+        trips.remove(trip);
+    }
+
     public void acceptInvite(Long inviteId){
         Optional<TripEntity> inviteOptional = invites.stream()
                 .filter(invites -> invites.getId().equals(inviteId))

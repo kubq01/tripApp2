@@ -45,4 +45,9 @@ public class TripController {
         tripService.declineInvite(inviteId);
         return ResponseEntity.ok("Invite declined");
     }
+
+    @DeleteMapping("/delete-participant")
+    public ResponseEntity<String> deleteParticipant(@RequestParam String userEmail, @RequestParam Long tripId){
+        return ResponseEntity.ok(tripService.deleteParticipant(userEmail, tripId));
+    }
 }

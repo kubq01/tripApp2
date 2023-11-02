@@ -95,4 +95,25 @@ public class TripService {
         user.declineInvite(inviteId);
         userRepository.save(user);
     }
+
+    @Transactional
+    public String deleteParticipant(String userEmail, Long tripId) {
+        Optional<User> userOptional = userRepository.findByEmail(userEmail);
+        Optional<TripEntity> tripOptional = tripRepository.findById(tripId);
+        if(userOptional.isPresent() && tripOptional.isPresent() &&
+                tripOptional.get().getOrganizer().getEmail().equals(getCurrectUser().getEmail())) {
+            User user = userOptional.get();
+            TripEntity trip = tripOptional.get();
+            if(user.getTrips().stream().noneMatch(userTrip -> userTrip.getId().equals(trip.getId())))
+                return "User not in trip";
+
+            user.deleteFromTrip(trip);
+            trip.deleteParticipant(user);
+            userRepository.save(user);
+            tripRepository.save(trip);
+
+            return "User deleted";
+        }
+        return "User or trip not found";
+    }
 }

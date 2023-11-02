@@ -25,6 +25,10 @@ public class TripEntity {
     public void addParticipant(User user){
         participants.add(user);
     }
+
+    public void deleteParticipant(User user){
+        participants.remove(user);
+    }
     public TripEntity(String name, User organizer) {
         this.name = name;
         this.organizer = organizer;
