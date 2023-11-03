@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
-import User from "./User.tsx";
 import NavBar from "../core/NavBar.tsx";
 import {useNavigate} from "react-router-dom";
 import {Box, Card, CardContent, Typography} from "@mui/material";
 import {dark} from "@mui/material/styles/createPalette";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import {User} from "./User";
 
 function UserProfile() {
 
     const LOADING = "loading..."
 
-    const [user, setUser] = useState(new User(LOADING, LOADING, LOADING))
+    const [user, setUser] = useState<User>({firstName: "LOADING", lastName: "LOADING", email: "LOADING"})
     const navigate = useNavigate();
 
 
@@ -31,7 +31,7 @@ function UserProfile() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    const user = new User(data.firstName, data.lastName, data.email);
+                    const user: User = {firstName: data.firstName,lastName: data.lastName,email: data.email};
                     setUser(user)
                 })
                 .catch(error => {
@@ -82,13 +82,13 @@ function UserProfile() {
                         </svg>
                     </div>
                     <Typography className="px-2" sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-                        First Name: {user.getFirstName()}
+                        First Name: {user.firstName}
                     </Typography>
                     <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-                        Last Name: {user.getLastName()}
+                        Last Name: {user.lastName}
                     </Typography>
                     <Typography sx={{ fontSize: 30 }} color="text.primary" gutterBottom>
-                        Email: {user.getEmail()}
+                        Email: {user.email}
                     </Typography>
                 </CardContent>
             </Card>

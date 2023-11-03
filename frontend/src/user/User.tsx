@@ -1,3 +1,4 @@
+/*
 class User {
     private firstName: string;
     private lastName: string;
@@ -23,3 +24,11 @@ class User {
 }
 
 export default User;
+
+ */
+
+export type User = {
+    firstName: string;
+    lastName: string;
+    email: string;
+}

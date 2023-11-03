@@ -8,10 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.example.demo.user.Role.ADMIN;
 import static com.example.demo.user.Role.USER;
@@ -79,6 +80,22 @@ public class BackendTripApp {
             headers.setBearerAuth(adminToken);
             request = new HttpEntity<>(trip2, headers);
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
+
+            String baseUrl = "http://localhost:8081/trip/invite";
+            String userEmail = "user@mail.com";
+            int tripId = 3;
+
+            // Create an HttpEntity with headers only (null body)
+            HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+            // Make the POST request without a request body
+            restTemplate.postForEntity(
+                    baseUrl + "?userEmail={userEmail}&tripId={tripId}",
+                    requestEntity,
+                    String.class,
+                    userEmail,
+                    tripId
+            );
 
 
 

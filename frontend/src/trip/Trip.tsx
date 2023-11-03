@@ -1,5 +1,6 @@
-import User from "../user/User";
+import {User} from "../user/User";
 
+/*
 class Trip{
     private name: string;
     private organizer: User;
@@ -20,3 +21,10 @@ class Trip{
 }
 
 export default Trip
+
+ */
+
+export type Trip = {
+    name: String,
+    organizer: User
+}
