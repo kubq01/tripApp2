@@ -33,6 +33,7 @@ function UserProfile() {
                 .then(data => {
                     const user: User = {firstName: data.firstName,lastName: data.lastName,email: data.email};
                     setUser(user)
+                    localStorage.setItem('currentUserEmail', user.email)
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);

@@ -1,13 +1,16 @@
-import {Box, Card, CardContent, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 //import {User} from "../user/User";
 import {Trip} from "./Trip";
 import {User} from "../user/User";
+import {useNavigate} from "react-router-dom";
 
-function TripListCard(){
+function TripListCard() {
 
     const [trips, setTrips] = useState<Trip[]>([]);
-    const [user, setUser] = useState<User>()
+    const [user, setUser] = useState<User>({firstName: "", lastName: "", email: ""});
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const fetchTrips = async () => {
         try {
@@ -32,7 +35,7 @@ function TripListCard(){
         }
     };
 
-    const getCurrentUser = async () => {
+    const getCurrentUser = () => {
         const token = localStorage.getItem('token');
 
         // Fetch user data using Bearer token
@@ -49,7 +52,7 @@ function TripListCard(){
             })
                 .then(response => response.json())
                 .then(data => {
-                    const user: User = {firstName: data.firstName,lastName: data.lastName,email: data.email};
+                    const user: User = {firstName: data.firstName, lastName: data.lastName, email: data.email};
                     setUser(user)
                 })
                 .catch(error => {
@@ -59,26 +62,56 @@ function TripListCard(){
     }
 
     useEffect(() => {
-        fetchTrips()
-        getCurrentUser()
-    },[])
+        console.log("fetchUser")
+        console.log(user)
+        getCurrentUser();
+
+    }, [])
+
+    useEffect(() => {
+        console.log("fetchTrips")
+        console.log(user)
+        fetchTrips();
+
+    }, [user])
+
+    useEffect(() => {
+        setLoading(false);
+    }, [trips])
 
     const getOrganizerForTrip = (trip: Trip) => {
+        console.log(trip)
+        console.log(user)
+        if(user == null)
+            getCurrentUser()
+
+        console.log(user)
+
         return (trip.organizer.email === user.email ? "Me" : `${trip.organizer.firstName} ${trip.organizer.lastName}`)
     }
 
+    const goToTripDetails = (tripId: Number) => {
+        localStorage.setItem("currentTripId", tripId.toString())
+        navigate("/trip-dashboard")
+    }
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Box>
             <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
-                <CardContent >
+                <CardContent>
                     {trips.map((trip, index) => (
-                        <Card key={index} variant="outlined" style={{ backgroundColor: "#2C3333", marginBottom: '10px' }}>
+                        <Card key={index} variant="outlined" style={{backgroundColor: "#2C3333", marginBottom: '10px'}}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 25 }} color="text.secondary" gutterBottom>
+                                <Box className="d-flex flex-row">
+                                <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom>
                                     Trip: {trip.name}, organizedBy: {getOrganizerForTrip((trip))}
                                 </Typography>
+                                    <Button variant="contained" onClick={() => goToTripDetails(trip.id)}>Go to trip</Button>
+                                </Box>
                             </CardContent>
                         </Card>
                     ))}

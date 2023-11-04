@@ -42,7 +42,7 @@ public class TripService {
     }
 
     public Long createNewTrip(Trip trip){
-        TripEntity tripEntity = new TripEntity(trip.getName(), getCurrectUser());
+        TripEntity tripEntity = new TripEntity(trip.getName(), getCurrectUser(), List.of(getCurrectUser()));
         tripRepository.save(tripEntity);
         User currentUser = getCurrectUser();
         currentUser.addTrip(tripEntity);

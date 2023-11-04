@@ -10,7 +10,11 @@ function TripDashboard() {
     return (
         <Box>
             <NavBarTrip/>
+            <main className="App">
+            <div className="d-flex flex-row justify-content-evenly w-100">
             <TripDetailsPage/>
+            </div>
+            </main>
         </Box>
     )
 }

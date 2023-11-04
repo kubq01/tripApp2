@@ -34,4 +34,10 @@ public class TripEntity {
         this.organizer = organizer;
         this.participants = Collections.emptyList();
     }
+
+    public TripEntity(String name, User organizer, List<User> participants) {
+        this.name = name;
+        this.organizer = organizer;
+        this.participants = participants;
+    }
 }
