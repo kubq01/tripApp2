@@ -32,7 +32,7 @@ function TripListCard(){
         }
     };
 
-    const getCurrentUser = () => {
+    const getCurrentUser = async () => {
         const token = localStorage.getItem('token');
 
         // Fetch user data using Bearer token

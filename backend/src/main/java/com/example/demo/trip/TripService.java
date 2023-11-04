@@ -41,12 +41,13 @@ public class TripService {
         return invites;
     }
 
-    public void createNewTrip(Trip trip){
+    public Long createNewTrip(Trip trip){
         TripEntity tripEntity = new TripEntity(trip.getName(), getCurrectUser());
         tripRepository.save(tripEntity);
         User currentUser = getCurrectUser();
         currentUser.addTrip(tripEntity);
         userRepository.save(currentUser);
+        return tripEntity.getId();
 
     }
 
@@ -115,5 +116,11 @@ public class TripService {
             return "User deleted";
         }
         return "User or trip not found";
+    }
+
+    public Trip getTripById(Long id) {
+        return TripMapper.INSTANCE.tripEntityToTrip(
+                tripRepository.findById(id)
+                .orElseGet(() -> new TripEntity()));
     }
 }

@@ -4,10 +4,10 @@ import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {useNavigate} from "react-router-dom";
 
-function TripInviteListCard(){
+function TripInviteListCard() {
 
     const [invites, setInvites] = useState([]);
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
 
     const fetchInvites = async () => {
         try {
@@ -34,45 +34,70 @@ function TripInviteListCard(){
 
     useEffect(() => {
         fetchInvites()
-    },[])
+    }, [])
 
     const acceptInvite = async (inviteId: number) => {
-        try{
-        const response = await fetch('http://localhost:8081/trip/accept-invite?inviteId=' + inviteId, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            },
-        });
+        try {
+            const response = await fetch('http://localhost:8081/trip/accept-invite?inviteId=' + inviteId, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000'
+                },
+            });
 
-        if (response.ok) {
-            console.error('Success accepting invite');
-            navigate(0);
-        } else {
-            console.error('Error accepting invites:', response.status);
+            if (response.ok) {
+                console.error('Success accepting invite');
+                navigate(0);
+            } else {
+                console.error('Error accepting invites:', response.status);
 
+            }
+        } catch (error) {
+            console.error('Error fetching invites:', error);
         }
-    } catch (error) {
-        console.error('Error fetching invites:', error);
     }
+
+    const declineInvite = async (inviteId: number) => {
+        try {
+            const response = await fetch('http://localhost:8081/trip/decline-invite?inviteId=' + inviteId, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000'
+                },
+            });
+
+            if (response.ok) {
+                console.error('Success declining invite');
+                navigate(0);
+            } else {
+                console.error('Error declining invites:', response.status);
+
+            }
+        } catch (error) {
+            console.error('Error fetching invites:', error);
+        }
     }
 
     return (
         <Box>
             <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
-                <CardContent >
+                <CardContent>
                     {invites.map((invite, index) => (
-                        <Card key={index} variant="outlined" style={{ backgroundColor: "#2C3333", marginBottom: '10px' }}>
+                        <Card key={index} variant="outlined" style={{backgroundColor: "#2C3333", marginBottom: '10px'}}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 25 }} color="text.secondary" gutterBottom>
-                                    Trip: {invite.name}, organizedBy: {invite.organizer.firstName} {invite.organizer.lastName}
+                                <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom>
+                                    Trip: {invite.name},
+                                    organizedBy: {invite.organizer.firstName} {invite.organizer.lastName}
                                 </Typography>
-                                <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={() => acceptInvite(invite.id)}>
+                                <Button variant="contained" color="primary" style={{marginRight: '10px'}}
+                                        onClick={() => acceptInvite(invite.id)}>
                                     Accept
                                 </Button>
-                                <Button variant="contained" color="secondary">
+                                <Button variant="contained" color="secondary" onClick={() => declineInvite(invite.id)}>
                                     Decline
                                 </Button>
                             </CardContent>

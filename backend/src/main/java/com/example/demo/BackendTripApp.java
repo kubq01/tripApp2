@@ -81,6 +81,14 @@ public class BackendTripApp {
             request = new HttpEntity<>(trip2, headers);
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
+            Trip tripIdTest = Trip.builder()
+                    .name("testTripForUser2")
+                    .build();
+
+            headers.setBearerAuth(adminToken);
+            request = new HttpEntity<>(tripIdTest, headers);
+            restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
+
             String baseUrl = "http://localhost:8081/trip/invite";
             String userEmail = "user@mail.com";
             int tripId = 3;

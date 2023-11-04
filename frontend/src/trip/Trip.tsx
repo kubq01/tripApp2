@@ -27,4 +27,5 @@ export default Trip
 export type Trip = {
     name: String,
     organizer: User
+    participants: User[]
 }

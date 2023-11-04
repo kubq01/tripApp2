@@ -10,6 +10,8 @@ import '@fontsource/roboto/700.css';
 import {createTheme, ThemeProvider} from "@mui/material";
 import {Route, Routes} from "react-router-dom";
 import HomeScreen from "./core/HomeScreen.tsx";
+import TripDashboard from "./trip/TripDashborad.tsx";
+import PaymentsDashboard from "./payments/paymentsDashboard.tsx";
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
@@ -78,6 +80,8 @@ function App() {
                 <Route index element={<LoginForm/>}/>
                 <Route path="register" element={<RegisterForm/>}/>
                 <Route path="homescreen" element={<HomeScreen/>}/>
+                <Route path="trip-dashboard" element={<TripDashboard/>}/>
+                <Route path="payments" element={<PaymentsDashboard/>}/>
             </Routes>
         </ThemeProvider>
     );

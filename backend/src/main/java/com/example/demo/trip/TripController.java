@@ -24,9 +24,8 @@ public class TripController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<String> createNewTrip(@RequestBody Trip trip){
-        tripService.createNewTrip(trip);
-        return ResponseEntity.ok("Successfully created new trip");
+    public ResponseEntity<Long> createNewTrip(@RequestBody Trip trip){
+        return ResponseEntity.ok(tripService.createNewTrip(trip));
     }
 
     @PostMapping("/invite")
@@ -49,5 +48,10 @@ public class TripController {
     @DeleteMapping("/delete-participant")
     public ResponseEntity<String> deleteParticipant(@RequestParam String userEmail, @RequestParam Long tripId){
         return ResponseEntity.ok(tripService.deleteParticipant(userEmail, tripId));
+    }
+
+    @GetMapping("/trip-details/{id}")
+    public ResponseEntity<Trip> getTripById(@PathVariable Long id){
+        return ResponseEntity.ok(tripService.getTripById(id));
     }
 }
