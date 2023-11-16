@@ -4,46 +4,34 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/plan")
 public class PlanController {
-    private final ActivityPlanService activityPlanService;
-    private final TransportationPlanService transportationPlanService;
+    private final PlanService planService;
 
-    @PostMapping
-    public ResponseEntity<String> createActivityPlan(@RequestBody ActivityPlanEntity activityPlan, @RequestParam Long tripId){
-        activityPlanService.createPlan(activityPlan, tripId);
+    @GetMapping
+    public ResponseEntity<List<PlanEntity>> getPlansForTrip(@RequestParam Long tripId){
+        return ResponseEntity.ok(planService.getPlansForTrip(tripId));
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<String> createPlan(@RequestBody PlanEntity activityPlan, @RequestParam Long tripId){
+        planService.createPlan(activityPlan, tripId);
         return ResponseEntity.ok("new plan created");
     }
 
-    @PostMapping
-    public ResponseEntity<String> createTransportationPlan(@RequestBody TransportationPlanEntity transportationPlan , @RequestParam Long tripId){
-        transportationPlanService.createPlan(transportationPlan, tripId);
-        return ResponseEntity.ok("new plan created");
-    }
-
-    @PostMapping
-    public ResponseEntity<String> updateActivityPlan(@RequestBody ActivityPlanEntity activityPlan){
-        activityPlanService.updatePlan(activityPlan);
+    @PostMapping("/update")
+    public ResponseEntity<String> updatePlan(@RequestBody PlanEntity activityPlan){
+        planService.updatePlan(activityPlan);
         return ResponseEntity.ok("plan updated");
     }
 
-    @PostMapping
-    public ResponseEntity<String> updateTransportationPlan(@RequestBody TransportationPlanEntity transportationPlan){
-        transportationPlanService.updatePlan(transportationPlan);
-        return ResponseEntity.ok("plan updated");
-    }
-
-    @DeleteMapping
-    public ResponseEntity<String> deleteActivityPlan(@RequestBody ActivityPlanEntity activityPlan){
-        activityPlanService.deletePlan(activityPlan);
-        return ResponseEntity.ok("plan deleted");
-    }
-
-    @DeleteMapping
-    public ResponseEntity<String> deleteTransportationPlan(@RequestBody TransportationPlanEntity transportationPlan){
-        transportationPlanService.deletePlan(transportationPlan);
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deletePlan(@RequestBody PlanEntity activityPlan){
+        planService.deletePlan(activityPlan);
         return ResponseEntity.ok("plan deleted");
     }
 }

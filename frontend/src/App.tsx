@@ -12,6 +12,7 @@ import {Route, Routes} from "react-router-dom";
 import HomeScreen from "./core/HomeScreen.tsx";
 import TripDashboard from "./trip/TripDashborad.tsx";
 import PaymentsDashboard from "./payments/paymentsDashboard.tsx";
+import PlanDasboard from "./plan/PlanDashboard.tsx";
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
@@ -81,7 +82,7 @@ function App() {
                 <Route path="register" element={<RegisterForm/>}/>
                 <Route path="homescreen" element={<HomeScreen/>}/>
                 <Route path="trip-dashboard" element={<TripDashboard/>}/>
-                <Route path="payments" element={<PaymentsDashboard/>}/>
+                <Route path="plan" element={<PlanDasboard/>}/>
             </Routes>
         </ThemeProvider>
     );

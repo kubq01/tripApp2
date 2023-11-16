@@ -7,6 +7,7 @@ import com.example.demo.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,20 +21,18 @@ public class TripEntity {
     @GeneratedValue
     private Long id;
     private String name;
+    private LocalDate startDay;
+    private LocalDate finishDay;
     @ManyToOne
     private User organizer;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<User> participants;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "parent_id")
+    @OneToMany(fetch = FetchType.EAGER)
     private List<PlanEntity> plans;
 
-    public void addPlan(ActivityPlanEntity activityPlan){
-        plans.add(activityPlan);
-    }
 
-    public void addPlan(TransportationPlanEntity transportationPlan){
-        plans.add(transportationPlan);
+    public void addPlan(PlanEntity plan){
+        plans.add(plan);
     }
 
     public void addParticipant(User user){

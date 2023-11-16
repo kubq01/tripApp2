@@ -2,8 +2,12 @@ package com.example.demo;
 
 import com.example.demo.auth.AuthenticationService;
 import com.example.demo.auth.RegisterRequest;
+import com.example.demo.plan.NoteEntity;
+import com.example.demo.plan.PlanEntity;
+import com.example.demo.plan.PlanService;
 import com.example.demo.trip.Trip;
 import com.example.demo.trip.TripRepository;
+import jakarta.persistence.OneToMany;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +17,11 @@ import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 import static com.example.demo.user.Role.ADMIN;
 import static com.example.demo.user.Role.USER;
@@ -27,7 +36,8 @@ public class BackendTripApp {
     @Bean
     public CommandLineRunner commandLineRunner(
             AuthenticationService service,
-            TripRepository tripRepository
+            TripRepository tripRepository,
+            PlanService planService
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
@@ -105,8 +115,19 @@ public class BackendTripApp {
                     tripId
             );
 
+            //plans
 
+            PlanEntity plan = PlanEntity.builder()
+                    .startDate(LocalDateTime.now())
+                    .description("test1")
+                    .endDate(LocalDateTime.now())
+                    .additionalInfo("")
+                    .pricePerPerson(BigDecimal.valueOf(12.34))
+                    .address("ul.vvv 35, Krakow")
+                    .notes(Collections.singletonList(NoteEntity.builder().text("note").build()))
+                    .build();
 
+            planService.createPlan(plan, 1L);
         };
     }
 

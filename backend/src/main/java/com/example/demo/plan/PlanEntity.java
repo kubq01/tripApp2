@@ -1,32 +1,29 @@
 package com.example.demo.plan;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Data
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "plan_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class PlanEntity {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PlanEntity {
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private LocalDateTime startDate;
-    private PlanType type;
+    private String description;
     private LocalDateTime endDate;
     private String additionalInfo;
     private BigDecimal pricePerPerson;
-    @Id
-    private Long id;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    private String address;
+    @OneToMany
+    private List<NoteEntity> notes;
 }

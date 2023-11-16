@@ -1,4 +1,5 @@
-import {User} from "../user/User";
+import {User} from "../user/User.tsx";
+import {Plan} from "../plan/Plan.tsx";
 
 /*
 class Trip{
@@ -26,6 +27,9 @@ export default Trip
 
 export type Trip = {
     name: String,
+    startDay: Date
+    finishDay: Date
     organizer: User
     participants: User[]
+    plans: Plan[]
 }
