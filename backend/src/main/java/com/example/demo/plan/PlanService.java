@@ -36,24 +36,33 @@ public class PlanService {
             }
         }
         trip.addPlan(plan);
+        /*
         for(NoteEntity noteEntity: plan.getNotes()){
             noteRepository.save(noteEntity);
         }
+
+         */
         repository.save(plan);
         tripRepository.save(trip);
     }
 
     public void updatePlan(PlanEntity plan) {
+        /*
         for(NoteEntity noteEntity: plan.getNotes()){
             noteRepository.save(noteEntity);
         }
+
+         */
         repository.save(plan);
     }
 
     public void deletePlan(PlanEntity plan) {
+        /*
         for(NoteEntity noteEntity: plan.getNotes()){
             noteRepository.delete(noteEntity);
         }
+
+         */
         repository.delete(plan);
     }
 

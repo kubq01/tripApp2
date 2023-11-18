@@ -34,7 +34,8 @@ function NavBarTrip() {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Trip app
                 </Typography>
-                <Button color="inherit" onClick={()=>{navigate("/")}}>Dashboard</Button>
+                <Button color="inherit" onClick={()=>{navigate("/")}}>My profile</Button>
+                <Button color="inherit" onClick={()=>{navigate("/trip-dashboard")}}>Trip Dashboard</Button>
                 <Button color="inherit">Chat</Button>
                 <Button color="inherit" onClick={()=>{navigate("/plan")}}>Trip Plan</Button>
                 <Button color="inherit">Notes</Button>

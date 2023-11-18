@@ -21,9 +21,12 @@ public class PlanEntity {
     private LocalDateTime startDate;
     private String description;
     private LocalDateTime endDate;
-    private String additionalInfo;
+    private String notes;
     private BigDecimal pricePerPerson;
     private String address;
-    @OneToMany
+    /*
+    @OneToMany(fetch = FetchType.EAGER)
     private List<NoteEntity> notes;
+
+     */
 }

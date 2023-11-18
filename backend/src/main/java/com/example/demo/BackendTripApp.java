@@ -121,13 +121,56 @@ public class BackendTripApp {
                     .startDate(LocalDateTime.now())
                     .description("test1")
                     .endDate(LocalDateTime.now())
-                    .additionalInfo("")
+                    .notes("note1")
                     .pricePerPerson(BigDecimal.valueOf(12.34))
                     .address("ul.vvv 35, Krakow")
-                    .notes(Collections.singletonList(NoteEntity.builder().text("note").build()))
                     .build();
 
             planService.createPlan(plan, 1L);
+
+            PlanEntity plan2 = PlanEntity.builder()
+                    .startDate(LocalDateTime.now())
+                    .description("test2")
+                    .endDate(LocalDateTime.now())
+                    .notes("note2")
+                    .pricePerPerson(BigDecimal.valueOf(12.34))
+                    .address("ul.vvv 35, Krakow")
+                    .build();
+
+            planService.createPlan(plan2, 1L);
+
+            PlanEntity plan3 = PlanEntity.builder()
+                    .startDate(LocalDateTime.now().plusDays(1))
+                    .description("test3")
+                    .endDate(LocalDateTime.now().plusDays(1))
+                    .notes("note3")
+                    .pricePerPerson(BigDecimal.valueOf(12.34))
+                    .address("ul.vvv 35, Krakow")
+                    .build();
+
+            planService.createPlan(plan3, 1L);
+
+            PlanEntity plan4 = PlanEntity.builder()
+                    .startDate(LocalDateTime.now().plusDays(1))
+                    .description("test4")
+                    .endDate(LocalDateTime.now().plusDays(1))
+                    .notes("note4")
+                    .pricePerPerson(BigDecimal.valueOf(12.34))
+                    .address("ul.vvv 35, Krakow")
+                    .build();
+
+            planService.createPlan(plan4, 1L);
+
+            PlanEntity plan5 = PlanEntity.builder()
+                    .startDate(LocalDateTime.now().plusDays(2))
+                    .description("test5")
+                    .endDate(LocalDateTime.now().plusDays(2))
+                    .notes("note5")
+                    .pricePerPerson(BigDecimal.valueOf(12.34))
+                    .address("ul.vvv 35, Krakow")
+                    .build();
+
+            planService.createPlan(plan5, 1L);
         };
     }
 
