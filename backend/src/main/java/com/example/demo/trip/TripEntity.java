@@ -34,6 +34,9 @@ public class TripEntity {
     public void addPlan(PlanEntity plan){
         plans.add(plan);
     }
+    public void deletePlan(PlanEntity plan){
+        plans.remove(plan);
+    }
 
     public void addParticipant(User user){
         participants.add(user);

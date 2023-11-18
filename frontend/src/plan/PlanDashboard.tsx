@@ -4,14 +4,16 @@ import {useEffect, useState} from "react";
 import {Plan} from "./Plan.tsx";
 import axios from "axios";
 import {format} from 'date-fns';
+import {useNavigate} from "react-router-dom";
 
 function PlanDasboard() {
 
 
-    const tripId = localStorage.getItem('currentTripId');
     const token = localStorage.getItem('token');
     const [plans, setPlans] = useState<Plan[]>([]);
     let prevStartDate: null | string = null;
+    const navigate = useNavigate();
+    const isOrganizator = localStorage.getItem('organizator') == 'Me';
 
     useEffect(() => {
         const tripId = localStorage.getItem('currentTripId')
@@ -27,6 +29,31 @@ function PlanDasboard() {
             })
             .catch(error => console.error('Error fetching plans:', error));
     }, []);
+
+    const removePlan = async (plan: Plan) => {
+        try {
+            const tripId = localStorage.getItem('currentTripId');
+            const response = await fetch('http://localhost:8081/plan/delete?tripId=' + tripId, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000'
+                },
+                body: JSON.stringify(plan),
+            });
+
+            if (response.ok) {
+                console.error('Success deleting plan');
+                navigate(0);
+            } else {
+                console.error('Error deleting plan invites:', response.status);
+
+            }
+        } catch (error) {
+            console.error('Error deleting plan:', error);
+        }
+    }
 
     function formatDate(date: Date) {
         if (!(date instanceof Date)) {
@@ -96,8 +123,8 @@ function PlanDasboard() {
                                                              justifyContent="space-between">
                                                             <Button variant="contained"
                                                                     color="secondary">Update</Button>
-                                                            <Button variant="contained"
-                                                                    color="secondary">Delete</Button>
+                                                            {isOrganizator && (<Button variant="contained"
+                                                                    color="secondary" onClick={() => removePlan(plan)}>Delete</Button>)}
                                                         </Box>
 
                                                     </CardContent>

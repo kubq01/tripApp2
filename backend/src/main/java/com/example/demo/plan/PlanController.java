@@ -30,8 +30,8 @@ public class PlanController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deletePlan(@RequestBody PlanEntity activityPlan){
-        planService.deletePlan(activityPlan);
+    public ResponseEntity<String> deletePlan(@RequestBody PlanEntity activityPlan, @RequestParam Long tripId){
+        planService.deletePlan(activityPlan, tripId);
         return ResponseEntity.ok("plan deleted");
     }
 }

@@ -90,8 +90,9 @@ function TripListCard() {
         return (trip.organizer.email === user.email ? "Me" : `${trip.organizer.firstName} ${trip.organizer.lastName}`)
     }
 
-    const goToTripDetails = (tripId: Number) => {
+    const goToTripDetails = (trip: Trip, tripId: number) => {
         localStorage.setItem("currentTripId", tripId.toString())
+        localStorage.setItem("organizator", getOrganizerForTrip(trip))
         navigate("/trip-dashboard")
     }
 
@@ -110,7 +111,7 @@ function TripListCard() {
                                 <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom>
                                     Trip: {trip.name}, organizedBy: {getOrganizerForTrip((trip))}
                                 </Typography>
-                                    <Button variant="contained" onClick={() => goToTripDetails(trip.id)}>Go to trip</Button>
+                                    <Button variant="contained" onClick={() => goToTripDetails(trip, trip.id)}>Go to trip</Button>
                                 </Box>
                             </CardContent>
                         </Card>

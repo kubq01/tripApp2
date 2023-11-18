@@ -56,13 +56,16 @@ public class PlanService {
         repository.save(plan);
     }
 
-    public void deletePlan(PlanEntity plan) {
+    public void deletePlan(PlanEntity plan, Long tripId) {
         /*
         for(NoteEntity noteEntity: plan.getNotes()){
             noteRepository.delete(noteEntity);
         }
 
          */
+        TripEntity trip = tripRepository.findById(tripId).orElseThrow();
+        trip.deletePlan(plan);
+        tripRepository.save(trip);
         repository.delete(plan);
     }
 

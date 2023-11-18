@@ -4,6 +4,7 @@ import {Route, Router, Routes, useNavigate} from "react-router-dom";
 import TripDetailsPage from "./TripDetailsPage.tsx";
 import RegisterForm from "../auth/RegisterForm";
 import {Payments} from "@mui/icons-material";
+import {useEffect} from "react";
 
 function TripDashboard() {
 
