@@ -50,7 +50,7 @@ function NewPlanForm() {
             startDate,
             endDate,
             description: activityDescription,
-            pricePerPerson: parseFloat(pricePerPerson),
+            pricePerPerson: parseFloat(parseFloat(pricePerPerson).toFixed(2)),
             address: address,
             notes: notes,
         };

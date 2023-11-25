@@ -67,6 +67,10 @@ function PlanDasboard() {
         navigate("/new-plan")
     }
 
+    function updatePlan(planToUpdate: Plan){
+        navigate("/update-plan", {state: {plan: planToUpdate}})
+    }
+
     return (
         <Box>
             <NavBarTrip/>
@@ -126,7 +130,8 @@ function PlanDasboard() {
                                                         <Box display="flex" flexDirection="row"
                                                              justifyContent="space-between">
                                                             <Button variant="contained"
-                                                                    color="secondary">Update</Button>
+                                                                    color="secondary"
+                                                                    onClick={()=>updatePlan(plan)}>Update</Button>
                                                             {isOrganizator && (<Button variant="contained"
                                                                     color="secondary" onClick={() => removePlan(plan)}>Delete</Button>)}
                                                         </Box>

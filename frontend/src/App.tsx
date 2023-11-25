@@ -14,6 +14,7 @@ import TripDashboard from "./trip/TripDashborad.tsx";
 import PaymentsDashboard from "./payments/paymentsDashboard.tsx";
 import PlanDasboard from "./plan/PlanDashboard.tsx";
 import NewPlanForm from "./plan/NewPlanForm.tsx";
+import UpdatePlanStart from "./plan/UpdatePlanStart.tsx";
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
@@ -85,6 +86,7 @@ function App() {
                 <Route path="trip-dashboard" element={<TripDashboard/>}/>
                 <Route path="plan" element={<PlanDasboard/>}/>
                 <Route path="new-plan" element={<NewPlanForm/>}/>
+                <Route path="update-plan" element={<UpdatePlanStart/>}/>
             </Routes>
         </ThemeProvider>
     );
