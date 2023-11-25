@@ -63,6 +63,10 @@ function PlanDasboard() {
         return (date.getDay() + "." + date.getMonth() + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes())
     }
 
+    function newPlan(){
+        navigate("/new-plan")
+    }
+
     return (
         <Box>
             <NavBarTrip/>
@@ -70,7 +74,7 @@ function PlanDasboard() {
                 <Box sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", overflowY: "scroll", px: 3, py: 2}}>
                     <Box display="flex" flexDirection="row">
                         <Box display="flex" flexDirection="column" gap={3}>
-                            <Button variant="contained" color="secondary">New Plan</Button>
+                            <Button variant="contained" color="secondary" onClick={() => newPlan()}>New Plan</Button>
                                 {plans.length === 0 ? (
                                     <Typography variant="body1">No plans available for this
                                         trip.</Typography>

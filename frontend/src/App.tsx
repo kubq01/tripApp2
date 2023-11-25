@@ -13,6 +13,7 @@ import HomeScreen from "./core/HomeScreen.tsx";
 import TripDashboard from "./trip/TripDashborad.tsx";
 import PaymentsDashboard from "./payments/paymentsDashboard.tsx";
 import PlanDasboard from "./plan/PlanDashboard.tsx";
+import NewPlanForm from "./plan/NewPlanForm.tsx";
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
@@ -83,6 +84,7 @@ function App() {
                 <Route path="homescreen" element={<HomeScreen/>}/>
                 <Route path="trip-dashboard" element={<TripDashboard/>}/>
                 <Route path="plan" element={<PlanDasboard/>}/>
+                <Route path="new-plan" element={<NewPlanForm/>}/>
             </Routes>
         </ThemeProvider>
     );

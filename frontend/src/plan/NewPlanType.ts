@@ -1,11 +1,10 @@
 import {Note} from "./Note.tsx";
 
-export type Plan = {
-    id: number
+export type NewPlanType = {
+
     startDate: Date
     endDate: Date;
     description: string;
-    additionalInfo: string;
     pricePerPerson: number;
     address: string;
     notes: string;
