@@ -11,6 +11,8 @@ function PlanDasboard() {
 
     const token = localStorage.getItem('token');
     const [plans, setPlans] = useState<Plan[]>([]);
+    const [costSummaryText, setCostSummaryText] = useState("");
+    const [fullPriceText, setFullPriceText] = useState("")
     let prevStartDate: null | string = null;
     const navigate = useNavigate();
     const isOrganizator = localStorage.getItem('organizator') == 'Me';
@@ -29,6 +31,42 @@ function PlanDasboard() {
             })
             .catch(error => console.error('Error fetching plans:', error));
     }, []);
+
+    useEffect(() => {
+        let updatedCostSummaryText = "";
+        let updatedFullPriceText = "Full price without hotel cost and unexpected spendings: ";
+        setFullPriceText("")
+        setCostSummaryText("")
+        let prevStartDate = null;
+        let sum = 0;
+        let dayIterator = 1;
+        let daySum = 0;
+
+        plans.forEach((plan) => {
+            const currentStartDate = formatDate(plan.startDate);
+            console.log("dddd")
+            console.log(plan)
+
+            if (prevStartDate !== null && prevStartDate !== currentStartDate) {
+                updatedCostSummaryText += `\n` + "Day " + dayIterator + ": " + daySum;
+                dayIterator += 1;
+                sum += daySum;
+                daySum = 0;
+            }
+
+            prevStartDate = currentStartDate;
+            daySum = daySum + plan.pricePerPerson
+        });
+
+        updatedCostSummaryText += `\r\n` + "Day " + dayIterator + ": " + daySum;
+        sum += daySum;
+        updatedFullPriceText += sum.toFixed(2);
+
+        setCostSummaryText((prevCostSummaryText) => prevCostSummaryText + updatedCostSummaryText);
+        setCostSummaryText((prevCostSummaryText) => prevCostSummaryText + '\n' + updatedFullPriceText);
+        console.log(costSummaryText)
+        //setFullPriceText((prevFullPriceText) => prevFullPriceText + updatedFullPriceText);
+    }, [plans]);
 
     const removePlan = async (plan: Plan) => {
         try {
@@ -60,14 +98,15 @@ function PlanDasboard() {
             // If date is not a Date object, attempt to create a Date object
             date = new Date(date);
         }
-        return (date.getDay() + "." + date.getMonth() + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes())
+        const correctMonth = date.getMonth() + 1
+        return (date.getDate() + "." + correctMonth + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes())
     }
 
-    function newPlan(){
+    function newPlan() {
         navigate("/new-plan")
     }
 
-    function updatePlan(planToUpdate: Plan){
+    function updatePlan(planToUpdate: Plan) {
         navigate("/update-plan", {state: {plan: planToUpdate}})
     }
 
@@ -75,15 +114,26 @@ function PlanDasboard() {
         <Box>
             <NavBarTrip/>
             <main className="App">
-                <Box sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", overflowY: "scroll", px: 3, py: 2}}>
-                    <Box display="flex" flexDirection="row">
-                        <Box display="flex" flexDirection="column" gap={3}>
-                            <Button variant="contained" color="secondary" onClick={() => newPlan()}>New Plan</Button>
+                <Box display="flex" flexDirection="row" gap={4}
+                     sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
+                    <Box sx={{
+                        backgroundColor: "#2C3333",
+                        fontSize: 30,
+                        height: "100%",
+                        overflowY: "scroll",
+                        px: 3,
+                        py: 2
+                    }}>
+                        <Box display="flex" flexDirection="row">
+                            <Box display="flex" flexDirection="column" gap={3}>
+                                <Button variant="contained" color="secondary" onClick={() => newPlan()}>New
+                                    Plan</Button>
                                 {plans.length === 0 ? (
                                     <Typography variant="body1">No plans available for this
                                         trip.</Typography>
                                 ) : (
                                     plans.map(plan => {
+
                                         const currentStartDate = formatDate(plan.startDate);
 
                                         const showDivider = prevStartDate !== null && prevStartDate !== currentStartDate;
@@ -131,9 +181,10 @@ function PlanDasboard() {
                                                              justifyContent="space-between">
                                                             <Button variant="contained"
                                                                     color="secondary"
-                                                                    onClick={()=>updatePlan(plan)}>Update</Button>
+                                                                    onClick={() => updatePlan(plan)}>Update</Button>
                                                             {isOrganizator && (<Button variant="contained"
-                                                                    color="secondary" onClick={() => removePlan(plan)}>Delete</Button>)}
+                                                                                       color="secondary"
+                                                                                       onClick={() => removePlan(plan)}>Delete</Button>)}
                                                         </Box>
 
                                                     </CardContent>
@@ -142,8 +193,16 @@ function PlanDasboard() {
                                         )
                                     })
                                 )}
+                            </Box>
                         </Box>
                     </Box>
+                    <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
+                        <CardContent>
+                            <Typography style={{whiteSpace: 'pre-line'}}>
+                                {costSummaryText}
+                            </Typography>
+                        </CardContent>
+                    </Card>
                 </Box>
             </main>
         </Box>

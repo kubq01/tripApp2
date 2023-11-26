@@ -8,11 +8,12 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {Plan} from "./Plan";
 import {NewPlanType} from "./NewPlanType";
 import {useNavigate} from "react-router-dom";
-import {format} from "date-fns";
+import {format, parseISO} from "date-fns";
 
 function UpdatePlanForm(planToUpdate: Plan) {
     const [activityDescription, setActivityDescription] = useState(planToUpdate.description);
-    const [startDate, setStartDate] = useState(format(new Date(planToUpdate.startDate), 'dd/MM/yyyy HH:mm'));
+    //TODO:
+    const [startDate, setStartDate] = useState(new Date());//(format(parseISO(planToUpdate.startDate.toString()), 'dd/MM/yyyy HH:mm'));
     const [endDate, setEndDate] = useState(new Date());
     const [pricePerPerson, setPricePerPerson] = useState(planToUpdate.pricePerPerson);
     const [address, setAddress] = useState(planToUpdate.address);
@@ -51,8 +52,9 @@ function UpdatePlanForm(planToUpdate: Plan) {
             return;
         }
 
-        planToUpdate.startDate = startDate;
-        planToUpdate.endDate = endDate;
+        //TODO:
+        planToUpdate.startDate = new Date(startDate.toUTCString());
+        planToUpdate.endDate = new Date(endDate.toUTCString());
         planToUpdate.description = activityDescription;
         planToUpdate.pricePerPerson = parseFloat(pricePerPerson.toFixed(2));
         planToUpdate.address = address;
