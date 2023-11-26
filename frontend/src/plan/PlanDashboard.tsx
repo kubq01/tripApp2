@@ -93,13 +93,20 @@ function PlanDasboard() {
         }
     }
 
+    function addZero(number: number){
+        if(number<10)
+            return "0" + number
+
+        return number
+    }
+
     function formatDate(date: Date) {
         if (!(date instanceof Date)) {
             // If date is not a Date object, attempt to create a Date object
             date = new Date(date);
         }
         const correctMonth = date.getMonth() + 1
-        return (date.getDate() + "." + correctMonth + "." + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes())
+        return (addZero(date.getDate()) + "." + addZero(correctMonth) + "." + date.getFullYear() + " " + addZero(date.getHours()) + ":" + addZero(date.getMinutes()))
     }
 
     function newPlan() {
