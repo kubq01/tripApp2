@@ -1,5 +1,7 @@
 package com.example.demo.trip;
 
+import com.example.demo.files.FileEntity;
+import com.example.demo.files.FileRepository;
 import com.example.demo.plan.ActivityPlanEntity;
 import com.example.demo.plan.PlanEntity;
 import com.example.demo.plan.TransportationPlanEntity;
@@ -30,12 +32,23 @@ public class TripEntity {
     @OneToMany(fetch = FetchType.EAGER)
     private List<PlanEntity> plans;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<FileEntity> files;
+
 
     public void addPlan(PlanEntity plan){
         plans.add(plan);
     }
     public void deletePlan(PlanEntity plan){
         plans.remove(plan);
+    }
+
+    public void addFile(FileEntity fileEntity){
+        files.add(fileEntity);
+    }
+
+    public void deleteFile(FileEntity fileEntity){
+        files.remove(fileEntity);
     }
 
     public void addParticipant(User user){
