@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,8 +55,9 @@ public class FileService {
     }
 
     @Transactional
-    public ResponseFiles getAllFiles() {
-        List<FileEntity> files = fileRepository.findAll();
+    public ResponseFiles getAllFiles(Long tripId) {
+        TripEntity trip = tripRepository.findById(tripId).orElseThrow();
+        List<FileEntity> files = trip.getFiles();
 
         return new ResponseFiles(files.stream()
                 .map(fileEntity -> {
@@ -65,10 +68,23 @@ public class FileService {
                             .toUriString();
 
                     return new FileResponse(
+                            fileEntity.getId(),
                             fileEntity.getName(),
                             fileDownloadUri,
                             fileEntity.getCategory());
                 }).collect(Collectors.groupingBy(FileResponse::getCategory))
         );
+    }
+
+    @Transactional
+    public Set<String> getCategories(Long tripId){
+        Set<String> categories = new HashSet<>();
+        TripEntity trip = tripRepository.findById(tripId).orElseThrow();
+
+
+        trip.getFiles()
+                .forEach(fileEntity -> categories.add(fileEntity.getCategory()));
+
+        return categories;
     }
 }

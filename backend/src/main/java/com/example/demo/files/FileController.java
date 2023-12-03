@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Set;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/file")
@@ -34,8 +36,8 @@ public class FileController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseFiles> getListFiles() {
-        return ResponseEntity.ok(fileService.getAllFiles());
+    public ResponseEntity<ResponseFiles> getListFiles(@RequestParam Long tripId) {
+        return ResponseEntity.ok(fileService.getAllFiles(tripId));
     }
 
     @GetMapping("/{id}")
@@ -45,5 +47,10 @@ public class FileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<Set<String>> getCategories(@RequestParam Long tripId){
+        return ResponseEntity.ok(fileService.getCategories(tripId));
     }
 }
