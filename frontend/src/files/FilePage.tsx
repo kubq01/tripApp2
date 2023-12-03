@@ -131,6 +131,43 @@ export function FilePage() {
         }
     }
 
+    const downloadFile = async (fileId: number, fileName: String) => {
+        try {
+            const response = await fetch(`http://localhost:8081/file/${fileId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000'
+                }
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${fileName}`);
+                document.body.appendChild(link);
+
+                // Trigger the download
+                link.click();
+
+                // Remove the link from the DOM
+                document.body.removeChild(link);
+
+                console.info('Success downloading file');
+            } else {
+                console.error('Error downloading file');
+            }
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+    };
+
+
     return (
         <Box>
             <NavBarTrip />
@@ -192,11 +229,16 @@ export function FilePage() {
                                     {fileList[category].map(file => (
                                         <li style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }} key={file.name}>
                                             <span>{file.name}</span>
+                                            <Box>
+                                            <Button variant="contained" color="secondary" style={{ marginLeft: '15px' }} onClick={() => downloadFile(file.id, file.name)}>
+                                                Download
+                                            </Button>
                                             {isOrganizator && (
                                                 <Button variant="contained" color="secondary" style={{ marginLeft: '15px' }} onClick={() => removeFile(file.id)}>
                                                     Delete
                                                 </Button>
                                             )}
+                                            </Box>
                                         </li>))}
                                 </ul>
                             </div>
