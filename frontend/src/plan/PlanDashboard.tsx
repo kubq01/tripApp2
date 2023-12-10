@@ -16,6 +16,7 @@ function PlanDasboard() {
     let prevStartDate: null | string = null;
     const navigate = useNavigate();
     const isOrganizator = localStorage.getItem('organizator') == 'Me';
+    const [notes, setNotes] = useState<String>('No plan selected.\n Click on a plan to desplay its notes')
 
     useEffect(() => {
         const tripId = localStorage.getItem('currentTripId')
@@ -93,6 +94,10 @@ function PlanDasboard() {
         }
     }
 
+    function setNotesForDisplay(notes: String) {
+        setNotes(notes)
+    }
+
     function addZero(number: number){
         if(number<10)
             return "0" + number
@@ -150,7 +155,8 @@ function PlanDasboard() {
                                                 {showDivider &&
                                                     <Divider sx={{height: '3px', backgroundColor: '#000'}}/>}
                                                 <Card className="py-3 px-3" variant="outlined"
-                                                      style={{backgroundColor: "#2C3333", fontSize: 30}}>
+                                                      style={{backgroundColor: "#2C3333", fontSize: 30}}
+                                                onClick={() => setNotesForDisplay(plan.notes)}>
                                                     <CardContent>
 
                                                         <Typography variant="h6"
@@ -182,10 +188,10 @@ function PlanDasboard() {
                                                             backgroundColor: '#fff'
                                                         }}/>
                                                         <Typography variant="body2">
-                                                            Notes: <br/> {plan.notes}
+                                                            Notes can be seen after clicking on this plan <br/>
                                                         </Typography>
                                                         <Box display="flex" flexDirection="row"
-                                                             justifyContent="space-between">
+                                                             justifyContent="space-between" marginTop={2} >
                                                             <Button variant="contained"
                                                                     color="secondary"
                                                                     onClick={() => updatePlan(plan)}>Update</Button>
@@ -203,6 +209,17 @@ function PlanDasboard() {
                             </Box>
                         </Box>
                     </Box>
+                    <Box display="flex" flexDirection="column">
+                    <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
+                        <CardContent>
+                            <Typography variant="h5" style={{whiteSpace: 'pre-line'}}>
+                                Notes
+                            </Typography>
+                            <Typography style={{whiteSpace: 'pre-line'}}>
+                                {notes}
+                            </Typography>
+                        </CardContent>
+                    </Card>
                     <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
                         <CardContent>
                             <Typography style={{whiteSpace: 'pre-line'}}>
@@ -210,6 +227,7 @@ function PlanDasboard() {
                             </Typography>
                         </CardContent>
                     </Card>
+                    </Box>
                 </Box>
             </main>
         </Box>

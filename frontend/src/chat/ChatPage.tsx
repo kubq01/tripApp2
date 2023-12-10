@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import NavBarTrip from "../core/NavBarTrip.tsx";
+import {Box, Button, Card, CardContent, Typography} from "@mui/material";
 
 const ChatPage = () => {
     const tripId = localStorage.getItem('currentTripId');
 
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
+    const isOrganizator = localStorage.getItem('organizator') == 'Me';
 
     const sendMessage = (content) => {
         if (content.trim() !== '') {
-            const chatMessage = { content: content };
+            const chatMessage = {content: content};
 
             // Make a POST request
             fetch(`http://localhost:8081/chat/${tripId}`, {
@@ -63,22 +65,43 @@ const ChatPage = () => {
     };
 
     return (
-        <div>
+        <Box>
             <NavBarTrip/>
-            <div>
-                {messages
-                    //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
-                    .map((msg, index) => (
-                        <div key={index}>{`${msg.sender}: ${msg.content} (${new Date(msg.timestamp).toLocaleTimeString()})`}</div>
-                    ))}
-            </div>
-            <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-            />
-            <button onClick={() => sendMessage(message)}>Send</button>
-        </div>
+            <main className="App">
+                <Box display="flex" flexDirection="column" gap={4}
+                     sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
+
+                    <Box sx={{
+                        backgroundColor: "#2C3333",
+                        fontSize: 30,
+                        height: "80%",
+                        overflowY: "scroll",
+                        px: 3,
+                        py: 2,
+                    }}
+                         gap={4}>
+                        {messages
+                            //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
+                            .map((msg, index) => (
+                                <Card>
+                                    <CardContent style={{ wordWrap: 'break-word', overflow: 'hidden' }}>
+                                        <Typography style={{ textAlign: 'left'}}>
+                                            {`${msg.sender}: ${msg.content}`}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                    </Box>
+
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <Button variant="contained" color="secondary" onClick={() => sendMessage(message)}>Send</Button>
+                </Box>
+            </main>
+        </Box>
     );
 };
 
