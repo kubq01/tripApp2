@@ -16,7 +16,8 @@ import PlanDasboard from "./plan/PlanDashboard.tsx";
 import NewPlanForm from "./plan/NewPlanForm.tsx";
 import UpdatePlanStart from "./plan/UpdatePlanStart.tsx";
 import {FilePage} from "./files/FilePage.tsx";
-import Chat from "./chat/ChatScreen.tsx";
+import ChatScreen from "./chat/ChatScreen.tsx";
+import ChatPage from "./chat/ChatPage.tsx";
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
@@ -90,7 +91,7 @@ function App() {
                 <Route path="new-plan" element={<NewPlanForm/>}/>
                 <Route path="update-plan" element={<UpdatePlanStart/>}/>
                 <Route path="files" element={<FilePage/>}/>
-                <Route path="chat" element={<Chat/>}/>
+                <Route path="chat" element={<ChatPage/>}/>
             </Routes>
         </ThemeProvider>
     );

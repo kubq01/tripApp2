@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
+import NavBarTrip from "../core/NavBarTrip.tsx";
 
-const Chat = () => {
+const ChatScreen = () => {
     const tripId = localStorage.getItem('currentTripId');
 
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
-    const [socket, setSocket] = useState(null);
+    const [stompClient, setStompClient] = useState(null);
 
     const sendMessage = (content) => {
         if (message.trim() !== '') {
-            const chatMessage = { content, sender: 'current_user', type: 'TEXT' };
-            socket.emit(`/app/send/${tripId}`, chatMessage);
+            const chatMessage = { content: content };
+            stompClient.publish({ destination: `/app/send/${tripId}`, body: JSON.stringify(chatMessage) });
             setMessage('');
         }
     };
@@ -20,15 +22,28 @@ const Chat = () => {
         const token = localStorage.getItem('token');
 
         if (token) {
-            // Create socket and establish a connection
-            const newSocket = io('http://localhost:8081', {
-                extraHeaders: { Authorization: `Bearer ${token}` },
+            // Create SockJS connection and establish Stomp over SockJS
+            const socket = new SockJS('http://localhost:8081/chat-websocket');
+            const newStompClient = new Client({
+                webSocketFactory: () => new SockJS('http://localhost:8081/chat-websocket'),
+                connectHeaders: { Authorization: `Bearer ${token}` },
             });
 
-            setSocket(newSocket);
+            console.log('Stomp client created:', newStompClient);
+            // Set headers for authentication
+            newStompClient.activate();
 
-            // Receive messages from the server
-            newSocket.on(`/topic/group/${tripId}`, (message) => {
+            newStompClient.onConnect = () => {
+                console.log('Connected to WebSocket');
+                // Log when the Stomp client is fully activated and connected
+                console.log('Stomp client activated:', newStompClient);
+            };
+
+            console.log('Stomp client activated:', newStompClient);
+
+            // Subscribe to the destination for receiving messages
+            const subscription = newStompClient.subscribe(`/topic/group/${tripId}`, (frame) => {
+                const message = JSON.parse(frame.body);
                 setMessages((prevMessages) => [...prevMessages, message]);
             });
 
@@ -36,8 +51,9 @@ const Chat = () => {
             fetchChatHistory(tripId);
 
             return () => {
-                // Close the connection when the component is unmounted
-                newSocket.disconnect();
+                // Unsubscribe and deactivate StompClient when the component is unmounted
+                subscription.unsubscribe();
+                newStompClient.deactivate();
             };
         }
     }, [tripId]);
@@ -65,12 +81,13 @@ const Chat = () => {
 
     return (
         <div>
+            <NavBarTrip/>
             <div>
                 {messages
-                    .sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
+                    //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
                     .map((msg, index) => (
-                        <div key={index}>{`${msg.sender}: ${msg.content} (${new Date(msg.timestamp).toLocaleTimeString()})`}</div>
-                    ))}
+                    <div key={index}>{`${msg.sender}: ${msg.content} (${new Date(msg.timestamp).toLocaleTimeString()})`}</div>
+                ))}
             </div>
             <input
                 type="text"
@@ -82,4 +99,4 @@ const Chat = () => {
     );
 };
 
-export default Chat;
+export default ChatScreen;
