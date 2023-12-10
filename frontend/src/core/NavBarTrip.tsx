@@ -38,9 +38,7 @@ function NavBarTrip() {
                 <Button color="inherit" onClick={()=>{navigate("/trip-dashboard")}}>Trip Dashboard</Button>
                 <Button color="inherit" onClick={()=>{navigate("/chat")}}>Chat</Button>
                 <Button color="inherit" onClick={()=>{navigate("/plan")}}>Trip Plan</Button>
-                <Button color="inherit">Notes</Button>
                 <Button color="inherit" onClick={()=>{navigate("/files")}}>Files</Button>
-                <Button color="inherit">Spendings</Button>
                 <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>
             </Toolbar>
         </AppBar>
