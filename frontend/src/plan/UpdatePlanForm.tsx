@@ -12,9 +12,8 @@ import {format, parseISO} from "date-fns";
 
 function UpdatePlanForm(planToUpdate: Plan) {
     const [activityDescription, setActivityDescription] = useState(planToUpdate.description);
-    //TODO:
-    const [startDate, setStartDate] = useState(new Date());//(format(parseISO(planToUpdate.startDate.toString()), 'dd/MM/yyyy HH:mm'));
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState<Date>(new Date(planToUpdate.startDate));//(format(parseISO(planToUpdate.startDate.toString()), 'dd/MM/yyyy HH:mm'));
+    const [endDate, setEndDate] = useState<Date>(new Date(planToUpdate.endDate));
     const [pricePerPerson, setPricePerPerson] = useState(planToUpdate.pricePerPerson);
     const [address, setAddress] = useState(planToUpdate.address);
     const [notes, setNotes] = useState(planToUpdate.notes);
@@ -31,11 +30,15 @@ function UpdatePlanForm(planToUpdate: Plan) {
             endDate,
             pricePerPerson,
             address,
-            notes,
+            notes
         });
+        console.log(startDate.getTimezoneOffset())
+        //alert(startDate)
 
         if (!activityDescription || !startDate || !endDate || !pricePerPerson || !address) {
             alert("Please fill in all fields");
+            //alert(startDate.getTimezoneOffset())
+            //alert(new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000))
             return;
         }
 
@@ -52,9 +55,8 @@ function UpdatePlanForm(planToUpdate: Plan) {
             return;
         }
 
-        //TODO:
-        planToUpdate.startDate = new Date(startDate.toUTCString());
-        planToUpdate.endDate = new Date(endDate.toUTCString());
+        planToUpdate.startDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000);
+        planToUpdate.endDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000);
         planToUpdate.description = activityDescription;
         planToUpdate.pricePerPerson = parseFloat(pricePerPerson.toFixed(2));
         planToUpdate.address = address;
@@ -62,6 +64,8 @@ function UpdatePlanForm(planToUpdate: Plan) {
 
         // Retrieve token from local storage
         const token = localStorage.getItem("token");
+
+        //alert(JSON.stringify(planToUpdate))
 
         try {
             const response = await fetch(`http://localhost:8081/plan/update`, {

@@ -71,20 +71,20 @@ const ChatPage = () => {
                 <Box display="flex" flexDirection="column" gap={4}
                      sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
 
-                    <Box sx={{
+                    <Box  display="flex" flexDirection="column" gap={4} sx={{
                         backgroundColor: "#2C3333",
                         fontSize: 30,
                         height: "80%",
                         overflowY: "scroll",
                         px: 3,
-                        py: 2,
+                        py: 2
                     }}
-                         gap={4}>
+                    >
                         {messages
                             //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
                             .map((msg, index) => (
                                 <Card>
-                                    <CardContent style={{ wordWrap: 'break-word', overflow: 'hidden' }}>
+                                    <CardContent >
                                         <Typography style={{ textAlign: 'left'}}>
                                             {`${msg.sender}: ${msg.content}`}
                                         </Typography>
