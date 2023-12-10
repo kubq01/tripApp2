@@ -71,7 +71,7 @@ const ChatPage = () => {
                 <Box display="flex" flexDirection="column" gap={4}
                      sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
 
-                    <Box  display="flex" flexDirection="column" gap={4} sx={{
+                    <Box sx={{
                         backgroundColor: "#2C3333",
                         fontSize: 30,
                         height: "80%",
@@ -83,8 +83,13 @@ const ChatPage = () => {
                         {messages
                             //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
                             .map((msg, index) => (
-                                <Card>
-                                    <CardContent >
+                                <Card sx={{
+                                    marginBottom: "10px", // Adjust the value for the desired gap
+                                }}>
+                                    <CardContent sx={{
+                                        padding: "10px",
+                                        paddingBottom: "10px !important"
+                                    }} >
                                         <Typography style={{ textAlign: 'left'}}>
                                             {`${msg.sender}: ${msg.content}`}
                                         </Typography>
