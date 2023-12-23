@@ -9,6 +9,7 @@ import {Plan} from "./Plan";
 import {NewPlanType} from "./NewPlanType";
 import {useNavigate} from "react-router-dom";
 import {format, parseISO} from "date-fns";
+import {introBodyStyle} from "../config/style.tsx";
 
 function UpdatePlanForm(planToUpdate: Plan) {
     const [activityDescription, setActivityDescription] = useState(planToUpdate.description);
@@ -91,10 +92,10 @@ function UpdatePlanForm(planToUpdate: Plan) {
     };
 
     return (
-        <Box>
+        <Box style={introBodyStyle}>
             <NavBarTrip />
             <main className="App">
-                <Box sx={{ backgroundColor: "#2C3333", fontSize: 30, px: 3, py: 2 }}>
+                <Box sx={{ backgroundColor: "rgba(44, 51, 51, 0.8)", fontSize: 30, px: 3, py: 2 }}>
                     <Card
                         className="py-3 px-3"
                         variant="outlined"
@@ -105,15 +106,16 @@ function UpdatePlanForm(planToUpdate: Plan) {
                                 <Typography variant="body2">Update plan:</Typography>
                                 <TextField
                                     fullWidth
-                                    label="Activity description:"
+                                    //label="Activity description:"
                                     variant="outlined"
                                     value={activityDescription}
                                     onChange={(e) => setActivityDescription(e.target.value)}
+                                    InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                                 />
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DateTimePicker
                                         value={startDate}
-                                        label="Start date:"
+                                        //label="Start date:"
                                         onChange={(date) => setStartDate(date)}
                                         format="dd/MM/yyyy HH:mm"
                                     />
@@ -121,7 +123,7 @@ function UpdatePlanForm(planToUpdate: Plan) {
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DateTimePicker
                                         value={endDate}
-                                        label="End date:"
+                                        //label="End date:"
                                         onChange={(date) => setEndDate(date)}
                                         format="dd/MM/yyyy HH:mm"
                                     />
@@ -131,19 +133,21 @@ function UpdatePlanForm(planToUpdate: Plan) {
                                     type="number"
                                     inputProps={{
                                         maxLength: 3,
-                                        step: ".01"
+                                        step: ".01",
+                                        style: { borderRadius: '8px', backgroundColor: 'white' }
                                     }}
-                                    label="Price per Person:"
+                                    //label="Price per Person:"
                                     variant="outlined"
                                     value={pricePerPerson}
                                     onChange={(e) => setPricePerPerson(parseFloat(e.target.value))}
                                 />
                                 <TextField
                                     fullWidth
-                                    label="Localization:"
+                                    //label="Localization:"
                                     variant="outlined"
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
+                                    InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                                 />
 
                                 <Divider
@@ -161,12 +165,14 @@ function UpdatePlanForm(planToUpdate: Plan) {
                                     variant="outlined"
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
+                                    InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                                 />
 
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={handleCreateClick}
+                                    style={{backgroundColor: '#4d5e4a'}}
                                 >
                                     Update
                                 </Button>

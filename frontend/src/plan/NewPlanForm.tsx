@@ -8,6 +8,7 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import {Plan} from "./Plan";
 import {NewPlanType} from "./NewPlanType";
 import {useNavigate} from "react-router-dom";
+import {introBodyStyle} from "../config/style.tsx";
 
 function NewPlanForm() {
     const [activityDescription, setActivityDescription] = useState("");
@@ -84,10 +85,10 @@ function NewPlanForm() {
     };
 
     return (
-        <Box>
+        <Box style={introBodyStyle}>
             <NavBarTrip />
             <main className="App">
-                <Box sx={{ backgroundColor: "#2C3333", fontSize: 30, px: 3, py: 2 }}>
+                <Box sx={{ backgroundColor: "rgba(44, 51, 51, 0.8)", fontSize: 30, px: 3, py: 2 }}>
                     <Card
                         className="py-3 px-3"
                         variant="outlined"
@@ -102,6 +103,7 @@ function NewPlanForm() {
                                 variant="outlined"
                                 value={activityDescription}
                                 onChange={(e) => setActivityDescription(e.target.value)}
+                                InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DateTimePicker
@@ -124,7 +126,8 @@ function NewPlanForm() {
                                 type="number"
                                 inputProps={{
                                     maxLength: 3,
-                                    step: ".01"
+                                    step: ".01",
+                                    style: { borderRadius: '8px', backgroundColor: 'white' }
                                 }}
                                 label="Price per Person:"
                                 variant="outlined"
@@ -137,6 +140,7 @@ function NewPlanForm() {
                                 variant="outlined"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
+                                InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                             />
 
                             <Divider
@@ -154,12 +158,14 @@ function NewPlanForm() {
                                 variant="outlined"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
+                                InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                             />
 
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={handleCreateClick}
+                                style={{backgroundColor: '#4d5e4a'}}
                             >
                                 Create
                             </Button>

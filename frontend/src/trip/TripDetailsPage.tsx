@@ -153,6 +153,7 @@ function TripDetailsPage() {
                                 label="email"
                                 value={emailInvite}
                                 onChange={(e) => setEmailInvite(e.target.value)}
+                                InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
                             />
                             <Typography sx={{fontSize: 15, color: "white"}} gutterBottom>
                                 {inviteInfo}

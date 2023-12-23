@@ -87,11 +87,16 @@ function TripInviteListCard() {
             <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', borderRadius: '10px', padding: '15px' }}>
                 <CardContent>
                     {invites.map((invite, index) => (
-                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px' }}>
+                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px', width: '600px' }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
-                                    Trip: {invite.name}, organized by: {invite.organizer.firstName} {invite.organizer.lastName}
-                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+                                    <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                        Trip: {invite.name}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                        Organized by: {invite.organizer.firstName} {invite.organizer.lastName}
+                                    </Typography>
+                                </Box>
                                 <Button variant="contained" color="primary" style={{ marginRight: '10px', borderRadius: '8px', backgroundColor: '#4d5e4a' }} onClick={() => acceptInvite(invite.id)}>
                                     Accept
                                 </Button>

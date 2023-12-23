@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,24 +42,34 @@ public class BackendTripApp {
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
-                    .firstname("Admin")
-                    .lastname("Admin")
-                    .email("admin@mail.com")
+                    .firstname("Anne")
+                    .lastname("Lake")
+                    .email("anne@mail.com")
                     .password("password")
-                    .role(ADMIN)
+                    .role(USER)
                     .build();
             String adminToken = service.register(admin).getAccessToken();
             System.out.println("Admin token: " + adminToken);
 
             var manager = RegisterRequest.builder()
-                    .firstname("User")
-                    .lastname("User")
-                    .email("user@mail.com")
+                    .firstname("Jake")
+                    .lastname("Summer")
+                    .email("summer98@mail.com")
                     .password("password")
                     .role(USER)
                     .build();
             String userToken = service.register(manager).getAccessToken();
             System.out.println("User token: " + userToken);
+
+            var user = RegisterRequest.builder()
+                    .firstname("Alex")
+                    .lastname("Smith")
+                    .email("a.smith@mail.com")
+                    .password("password")
+                    .role(USER)
+                    .build();
+            String userToken2 = service.register(user).getAccessToken();
+            System.out.println("Alex token: " + userToken2);
 
 
             HttpHeaders headers = new HttpHeaders();
@@ -67,7 +78,7 @@ public class BackendTripApp {
 
             Trip trip = Trip.builder()
                     .id(1L)
-                    .name("testTripForUser")
+                    .name("Cracow trip")
                     .build();
 
             HttpEntity<Trip> request = new HttpEntity<>(trip, headers);
@@ -76,7 +87,7 @@ public class BackendTripApp {
 
             Trip trip3 = Trip.builder()
                     .id(3L)
-                    .name("testTripForUser3")
+                    .name("Ski trip")
                     .build();
 
             request = new HttpEntity<>(trip3, headers);
@@ -84,7 +95,7 @@ public class BackendTripApp {
 
             Trip trip2 = Trip.builder()
                     .id(2L)
-                    .name("testTripForUser2")
+                    .name("London trip")
                     .build();
 
             headers.setBearerAuth(adminToken);
@@ -92,7 +103,7 @@ public class BackendTripApp {
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
             Trip tripIdTest = Trip.builder()
-                    .name("testTripForUser2")
+                    .name("Trip to Japan")
                     .build();
 
             headers.setBearerAuth(adminToken);
@@ -100,7 +111,7 @@ public class BackendTripApp {
             restTemplate.postForEntity("http://localhost:8081/trip/new", request, String.class);
 
             String baseUrl = "http://localhost:8081/trip/invite";
-            String userEmail = "user@mail.com";
+            String userEmail = "summer98@mail.com";
             int tripId = 3;
 
             // Create an HttpEntity with headers only (null body)
@@ -115,59 +126,93 @@ public class BackendTripApp {
                     tripId
             );
 
+            headers.setBearerAuth(userToken);
+            userEmail = "anne@mail.com";
+            tripId = 1;
+
+            // Create an HttpEntity with headers only (null body)
+            requestEntity = new HttpEntity<>(headers);
+
+            // Make the POST request without a request body
+            restTemplate.postForEntity(
+                    baseUrl + "?userEmail={userEmail}&tripId={tripId}",
+                    requestEntity,
+                    String.class,
+                    userEmail,
+                    tripId
+            );
+
+            userEmail = "a.smith@mail.com";
+
+            // Create an HttpEntity with headers only (null body)
+            requestEntity = new HttpEntity<>(headers);
+
+            // Make the POST request without a request body
+            restTemplate.postForEntity(
+                    baseUrl + "?userEmail={userEmail}&tripId={tripId}",
+                    requestEntity,
+                    String.class,
+                    userEmail,
+                    tripId
+            );
+
             //plans
+            String dateString = "2024-03-04 16:00";
+
+            // Define the DateTimeFormatter
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             PlanEntity plan = PlanEntity.builder()
-                    .startDate(LocalDateTime.now())
-                    .description("test1")
-                    .endDate(LocalDateTime.now())
-                    .notes("note1")
-                    .pricePerPerson(BigDecimal.valueOf(12.34))
-                    .address("ul.vvv 35, Krakow")
+                    .startDate(LocalDateTime.parse("2024-03-04 16:00", formatter))
+                    .description("Fly to Cracow")
+                    .endDate(LocalDateTime.parse("2024-03-04 18:00", formatter))
+                    .notes("Tickets are uploaded.")
+                    .pricePerPerson(BigDecimal.valueOf(50.00))
+                    .address("Birmingham airport")
                     .build();
 
             planService.createPlan(plan, 1L);
 
             PlanEntity plan2 = PlanEntity.builder()
-                    .startDate(LocalDateTime.now())
-                    .description("test2")
-                    .endDate(LocalDateTime.now())
-                    .notes("note2")
-                    .pricePerPerson(BigDecimal.valueOf(12.34))
-                    .address("ul.vvv 35, Krakow")
+                    .startDate(LocalDateTime.parse("2024-03-05 10:00", formatter))
+                    .description("Old town and Kazimierz neighborhood")
+                    .endDate(LocalDateTime.parse("2024-03-05 18:00", formatter))
+                    .notes("We would be walking all day.\nProbably we will not spend any money but I put some amount in case.")
+                    .pricePerPerson(BigDecimal.valueOf(35.00))
+                    .address("Cracow old town and Kazimierz")
                     .build();
 
             planService.createPlan(plan2, 1L);
 
             PlanEntity plan3 = PlanEntity.builder()
-                    .startDate(LocalDateTime.now().plusDays(1))
-                    .description("test3")
-                    .endDate(LocalDateTime.now().plusDays(1))
-                    .notes("note3")
-                    .pricePerPerson(BigDecimal.valueOf(12.34))
-                    .address("ul.vvv 35, Krakow")
+                    .startDate(LocalDateTime.parse("2024-03-06 10:00", formatter))
+                    .description("National museum")
+                    .endDate(LocalDateTime.parse("2024-03-06 13:00", formatter))
+                    .notes("")
+                    .pricePerPerson(BigDecimal.valueOf(15.50))
+                    .address("al. 3 Maja 1, Cracow")
                     .build();
 
             planService.createPlan(plan3, 1L);
 
             PlanEntity plan4 = PlanEntity.builder()
-                    .startDate(LocalDateTime.now().plusDays(1))
-                    .description("test4")
-                    .endDate(LocalDateTime.now().plusDays(1))
-                    .notes("note4")
-                    .pricePerPerson(BigDecimal.valueOf(12.34))
-                    .address("ul.vvv 35, Krakow")
+                    .startDate(LocalDateTime.parse("2024-03-06 14:00", formatter))
+                    .description("Wawel castle")
+                    .endDate(LocalDateTime.parse("2024-03-06 17:00", formatter))
+                    .notes("")
+                    .pricePerPerson(BigDecimal.valueOf(20.00))
+                    .address("Zamek Wawel 5, Cracow")
                     .build();
 
             planService.createPlan(plan4, 1L);
 
             PlanEntity plan5 = PlanEntity.builder()
-                    .startDate(LocalDateTime.now().plusDays(2))
-                    .description("test5")
-                    .endDate(LocalDateTime.now().plusDays(2))
-                    .notes("note5")
+                    .startDate(LocalDateTime.parse("2024-03-07 10:00", formatter))
+                    .description("Fly home")
+                    .endDate(LocalDateTime.parse("2024-03-07 12:00", formatter))
+                    .notes("")
                     .pricePerPerson(BigDecimal.valueOf(12.34))
-                    .address("ul.vvv 35, Krakow")
+                    .address("Balice airport")
                     .build();
 
             planService.createPlan(plan5, 1L);

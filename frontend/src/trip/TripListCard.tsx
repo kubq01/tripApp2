@@ -102,10 +102,10 @@ function TripListCard() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-            <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', borderRadius: '10px', padding: '15px' }}>
+            <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', borderRadius: '10px', padding: '15px'}}>
                 <CardContent>
                     {trips.map((trip, index) => (
-                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px' }}>
+                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px', width: '600px'  }}>
                             <CardContent>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>

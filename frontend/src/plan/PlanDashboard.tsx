@@ -190,7 +190,7 @@ function PlanDasboard() {
                                                         <strong>Price per Person:</strong> {plan.pricePerPerson}
                                                     </Typography>
                                                     <Typography variant="body2">
-                                                        <strong>Address:</strong> {plan.address}
+                                                        <strong>Where:</strong> {plan.address}
                                                     </Typography>
                                                     <Divider sx={{ height: '1px', borderWidth: '1px', backgroundColor: '#fff' }} />
                                                     <Typography variant="body2">
