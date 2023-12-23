@@ -5,6 +5,7 @@ import {Plan} from "./Plan.tsx";
 import axios from "axios";
 import {format} from 'date-fns';
 import {useNavigate} from "react-router-dom";
+import {introBodyStyle} from "../config/style.tsx";
 
 function PlanDasboard() {
 
@@ -123,115 +124,142 @@ function PlanDasboard() {
     }
 
     return (
-        <Box>
-            <NavBarTrip/>
+        <Box style={introBodyStyle}>
+            <NavBarTrip />
             <main className="App">
-                <Box display="flex" flexDirection="row" gap={4}
-                     sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
-                    <Box sx={{
-                        backgroundColor: "#2C3333",
-                        fontSize: 30,
+                <Box
+                    display="flex"
+                    flexDirection="row"
+                    gap={4}
+                    sx={{
+                        backgroundColor: "rgba(44, 51, 51, 0.8)",
+                        fontSize: 20,
                         height: "100%",
-                        overflowY: "scroll",
                         px: 3,
-                        py: 2
-                    }}>
-                        <Box display="flex" flexDirection="row">
-                            <Box display="flex" flexDirection="column" gap={3}>
-                                <Button variant="contained" color="secondary" onClick={() => newPlan()}>New
-                                    Plan</Button>
-                                {plans.length === 0 ? (
-                                    <Typography variant="body1">No plans available for this
-                                        trip.</Typography>
-                                ) : (
-                                    plans.map(plan => {
-
-                                        const currentStartDate = formatDate(plan.startDate);
-
-                                        const showDivider = prevStartDate !== null && prevStartDate !== currentStartDate;
-                                        prevStartDate = currentStartDate;
-                                        return (
-                                            <>
-                                                {showDivider &&
-                                                    <Divider sx={{height: '3px', backgroundColor: '#000'}}/>}
-                                                <Card className="py-3 px-3" variant="outlined"
-                                                      style={{backgroundColor: "#2C3333", fontSize: 30}}
-                                                onClick={() => setNotesForDisplay(plan.notes)}>
-                                                    <CardContent>
-
-                                                        <Typography variant="h6"
-                                                                    style={{marginBottom: '10px'}}>
-                                                            Activity description: {plan.description}
-                                                        </Typography>
+                        py: 2,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "#2C3333",
+                            fontSize: 20,
+                            height: "100%",
+                            overflowY: "scroll",
+                            px: 3,
+                            py: 2,
+                            flex: 1,
+                        }}
+                    >
+                        <Box display="flex" flexDirection="column" gap={3}>
+                            <Button variant="contained" color="secondary" onClick={() => newPlan()}>
+                                New Plan
+                            </Button>
+                            {plans.length === 0 ? (
+                                <Typography variant="body1">No plans available for this trip.</Typography>
+                            ) : (
+                                plans.map((plan, index) => {
+                                    const currentStartDate = formatDate(plan.startDate);
+                                    const showDivider = index > 0 && prevStartDate !== currentStartDate;
+                                    prevStartDate = currentStartDate;
+                                    return (
+                                        <>
+                                            {showDivider && <Divider sx={{ height: '3px', backgroundColor: '#fff' }} />}
+                                            <Card
+                                                className="py-3 px-3 plan-card"
+                                                variant="outlined"
+                                                style={{ backgroundColor: "#2C3333", fontSize: 20, cursor: 'pointer' }}
+                                                onClick={() => setNotesForDisplay(plan.notes)}
+                                            >
+                                                <CardContent>
+                                                    <Typography variant="h6" style={{ marginBottom: '10px', fontWeight: 'bold' }}>
+                                                        {plan.description}
+                                                    </Typography>
+                                                    <Typography variant="body2">
+                                                        <strong>Start Date:</strong> {formatDate(plan.startDate)}
+                                                    </Typography>
+                                                    {plan.endDate ? (
                                                         <Typography variant="body2">
-                                                            Start Date: {formatDate(plan.startDate)}
+                                                            <strong>End Date:</strong> {formatDate(plan.endDate)}
                                                         </Typography>
-                                                        {plan.endDate ? (
-                                                            <Typography variant="body2">
-                                                                End Date: {formatDate(plan.endDate)}
-                                                            </Typography>
-                                                        ) : (
-                                                            <Typography variant="body2">
-                                                                End Date: Not specified
-                                                            </Typography>
+                                                    ) : (
+                                                        <Typography variant="body2">
+                                                            <strong>End Date:</strong> Not specified
+                                                        </Typography>
+                                                    )}
+                                                    <Typography variant="body2">
+                                                        <strong>Price per Person:</strong> {plan.pricePerPerson}
+                                                    </Typography>
+                                                    <Typography variant="body2">
+                                                        <strong>Address:</strong> {plan.address}
+                                                    </Typography>
+                                                    <Divider sx={{ height: '1px', borderWidth: '1px', backgroundColor: '#fff' }} />
+                                                    <Typography variant="body2">
+                                                        Notes can be seen after clicking on this plan
+                                                    </Typography>
+                                                    <Box
+                                                        display="flex"
+                                                        flexDirection="row"
+                                                        justifyContent="space-between"
+                                                        marginTop={2}
+                                                    >
+                                                        <Button
+                                                            variant="contained"
+                                                            color="secondary"
+                                                            onClick={() => updatePlan(plan)}
+                                                        >
+                                                            Update
+                                                        </Button>
+                                                        {isOrganizator && (
+                                                            <Button
+                                                                variant="contained"
+                                                                color="secondary"
+                                                                onClick={() => removePlan(plan)}
+                                                            >
+                                                                Delete
+                                                            </Button>
                                                         )}
-
-                                                        <Typography variant="body2">
-                                                            Price per Person: {plan.pricePerPerson}
-                                                        </Typography>
-                                                        <Typography variant="body2">
-                                                            Address: {plan.address}
-                                                        </Typography>
-                                                        <Divider sx={{
-                                                            height: '1px',
-                                                            borderWidth: '1px',
-                                                            backgroundColor: '#fff'
-                                                        }}/>
-                                                        <Typography variant="body2">
-                                                            Notes can be seen after clicking on this plan <br/>
-                                                        </Typography>
-                                                        <Box display="flex" flexDirection="row"
-                                                             justifyContent="space-between" marginTop={2} >
-                                                            <Button variant="contained"
-                                                                    color="secondary"
-                                                                    onClick={() => updatePlan(plan)}>Update</Button>
-                                                            {isOrganizator && (<Button variant="contained"
-                                                                                       color="secondary"
-                                                                                       onClick={() => removePlan(plan)}>Delete</Button>)}
-                                                        </Box>
-
-                                                    </CardContent>
-                                                </Card>
-                                            </>
-                                        )
-                                    })
-                                )}
-                            </Box>
+                                                    </Box>
+                                                </CardContent>
+                                            </Card>
+                                        </>
+                                    );
+                                })
+                            )}
                         </Box>
                     </Box>
-                    <Box display="flex" flexDirection="column">
-                    <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
-                        <CardContent>
-                            <Typography variant="h5" style={{whiteSpace: 'pre-line'}}>
-                                Notes
-                            </Typography>
-                            <Typography style={{whiteSpace: 'pre-line'}}>
-                                {notes}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
-                        <CardContent>
-                            <Typography style={{whiteSpace: 'pre-line'}}>
-                                {costSummaryText}
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        gap={3}
+                        alignItems="center"
+                        justifyContent="center"
+                    >
+                        <Card sx={{ maxWidth: '400px', margin: 'auto', backgroundColor: "#2C3333" }}>
+                            <CardContent>
+                                <Typography variant="h5" style={{ whiteSpace: 'pre-line', fontWeight: 'bold' }}>
+                                    Notes
+                                </Typography>
+                                <Typography style={{ whiteSpace: 'pre-line' }}>{notes}</Typography>
+                            </CardContent>
+                        </Card>
+                        <Card sx={{ maxWidth: '400px', margin: 'auto', backgroundColor: "#2C3333" }}>
+                            <CardContent>
+                                <Typography
+                                    variant="h5"
+                                    style={{ whiteSpace: 'pre-line', fontWeight: 'bold' }}
+                                >
+                                    Cost Summary
+                                </Typography>
+                                <Typography style={{ whiteSpace: 'pre-line' }}>{costSummaryText}</Typography>
+                            </CardContent>
+                        </Card>
                     </Box>
                 </Box>
             </main>
         </Box>
-    )
+    );
+
+
 }
 
 export default PlanDasboard

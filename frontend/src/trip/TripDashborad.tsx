@@ -5,11 +5,12 @@ import TripDetailsPage from "./TripDetailsPage.tsx";
 import RegisterForm from "../auth/RegisterForm";
 import {Payments} from "@mui/icons-material";
 import {useEffect} from "react";
+import {introBodyStyle} from "../config/style.tsx";
 
 function TripDashboard() {
 
     return (
-        <Box>
+        <Box style={introBodyStyle}>
             <NavBarTrip/>
             <main className="App">
             <div className="d-flex flex-row justify-content-evenly w-100">

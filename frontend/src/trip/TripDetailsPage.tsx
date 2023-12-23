@@ -1,9 +1,10 @@
-import {Box, Button, Card, CardContent, Stack, TextField, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, IconButton, Stack, TextField, Typography} from "@mui/material";
 import axios from "axios";
 import HOST from "../config/apiConst";
 import {useEffect, useState} from "react";
 import {Trip} from "./Trip";
 import {useNavigate} from "react-router-dom";
+import {ClearIcon} from "@mui/x-date-pickers";
 
 function TripDetailsPage() {
 
@@ -14,7 +15,7 @@ function TripDetailsPage() {
         email: false
     });
     const navigate = useNavigate();
-    const [inviteInfo, setInviteInfo] = useState<String>('');
+    const [inviteInfo, setInviteInfo] = useState<String>('Use form above to write email of a friend that you want to invite');
 
     useEffect(() => {
         const tripId = localStorage.getItem('currentTripId'); // Get trip ID from localStorage
@@ -84,12 +85,17 @@ function TripDetailsPage() {
     }
 
     const deleteParticipantButton = (email: String) => {
-        if (!isOwner || localStorage.getItem('currentUserEmail') == email) {
-            return (<></>)
+        if (!isOwner || localStorage.getItem('currentUserEmail') === email) {
+            return <></>;
         } else {
             return (
-                <Button variant="contained" onClick={() => deleteParticipantRequest(email)}>Remove from trip</Button>
-            )
+                <IconButton
+                    onClick={() => deleteParticipantRequest(email)}
+                    sx={{ backgroundColor: '#572222', color: 'white', borderRadius: '8px' }}
+                >
+                    <ClearIcon />
+                </IconButton>
+            );
         }
     }
 
@@ -130,9 +136,7 @@ function TripDetailsPage() {
 
     const inviteForm = () => {
         if (!isOwner) {
-            return (
-                <></>
-            )
+            return <></>;
         } else {
             return (
                 <Card variant="outlined" style={{backgroundColor: "#2C3333", padding: "15px"}}>
@@ -143,19 +147,23 @@ function TripDetailsPage() {
                                 aria-label="email-field"
                                 required
                                 fullWidth
-                                helperText={isError.email && 'Email is empty!'}
+                                helperText={isError.email ? 'Email is empty!' : ''}
                                 name="email"
                                 id="email"
-                                label="Write email of a friend that you want to invite"
+                                label="email"
                                 value={emailInvite}
                                 onChange={(e) => setEmailInvite(e.target.value)}
                             />
-                            <Typography sx={{fontSize: 15}} color="text.primary">{inviteInfo}</Typography>
-                            <Button variant="contained" type="submit">Invite Friend</Button>
+                            <Typography sx={{fontSize: 15, color: "white"}} gutterBottom>
+                                {inviteInfo}
+                            </Typography>
+                            <Button variant="contained" type="submit" style={{backgroundColor: '#4d5e4a'}}>
+                                Invite Friend
+                            </Button>
                         </Stack>
                     </Box>
                 </Card>
-            )
+            );
         }
     }
 
@@ -165,18 +173,16 @@ function TripDetailsPage() {
                 <Typography>
                     No participants yet
                 </Typography>
-            )
+            );
         } else {
             return (
-                <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
+                <Card variant="outlined" style={{ backgroundColor: "#2C3333", borderRadius: '8px' }}>
                     <CardContent>
                         {trip.participants.map((participant, index) => (
-                            <Card key={index} variant="outlined"
-                                  style={{backgroundColor: "#2C3333", marginBottom: '10px'}}>
+                            <Card key={index} variant="outlined" style={{ backgroundColor: "#2C3333", marginBottom: '5px', borderRadius: '8px' }}>
                                 <CardContent>
                                     <Box className="d-flex flex-row">
-                                        <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom
-                                                    marginRight={4}>
+                                        <Typography sx={{ fontSize: 25, color: 'white' }} gutterBottom marginRight={4}>
                                             {participant.firstName} {participant.lastName}
                                         </Typography>
                                         {deleteParticipantButton(participant.email)}
@@ -188,29 +194,38 @@ function TripDetailsPage() {
                 </Card>
             );
         }
+
     }
 
     return (
         <Box>
-            <Card className="py-3 px-3" variant="outlined" style={{backgroundColor: "#2C3333", fontSize: 30}}>
+            <Card className="py-3 px-3" variant="outlined" style={{ backgroundColor: "rgba(44, 51, 51, 0.8)", fontSize: 30, borderRadius: '10px' }}>
                 <CardContent>
                     <Box display="flex" flexDirection="row">
-                        <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
+                        <Card variant="outlined" style={{ backgroundColor: "rgba(44, 51, 51, 0.8)", borderRadius: '8px', padding: '15px' }}>
                             <CardContent>
-                                <Typography sx={{fontSize: 35}}>Trip Details</Typography>
-                                <Typography sx={{fontSize: 30}}>Trip Name: {trip.name}</Typography>
-                                <Typography sx={{fontSize: 30}}>Organizer: {getOrganizerForTrip()}</Typography>
+                                <Typography sx={{ fontSize: 35, color: 'white', marginBottom: '10px' }} gutterBottom>
+                                    Trip Details
+                                </Typography>
+                                <Typography sx={{ fontSize: 30, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                    Trip Name: {trip.name}
+                                </Typography>
+                                <Typography sx={{ fontSize: 30, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                    Organizer: {getOrganizerForTrip()}
+                                </Typography>
                             </CardContent>
                         </Card>
                         <Box display="flex" flexDirection="column" marginLeft={2}>
-                            <Typography sx={{fontSize: 25}}>Participants:</Typography>
+                            <Typography sx={{ fontSize: 25, color: 'white', marginBottom: '8px' }}>Participants:</Typography>
                             {getParticipants()}
+                            <br/>
                             {inviteForm()}
                         </Box>
                     </Box>
                 </CardContent>
             </Card>
         </Box>
+
     )
 }
 
