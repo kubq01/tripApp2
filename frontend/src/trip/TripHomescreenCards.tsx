@@ -51,31 +51,36 @@ function TripHomescreenCards() {
     }
     return (
             <div className="d-flex flex-column gap-3">
-                <Box sx={{height: "auto", maxHeight: "200px", overflowY: "auto"}}>
-                    <TripListCard/>
+                <Box sx={{ height: 'auto', maxHeight: '200px', overflowY: 'auto', borderRadius: '10px', padding: '10px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray #4CAF50' }}>
+                    <TripListCard />
                 </Box>
-                <Box sx={{height: "auto", maxHeight: "200px", overflowY: "auto"}}>
-                    <TripInviteListCard/>
+
+                <Box sx={{ height: 'auto', maxHeight: '200px', overflowY: 'auto', borderRadius: '10px', padding: '10px', scrollbarWidth: 'thin', scrollbarColor: 'darkgray #4CAF50' }}>
+                    <TripInviteListCard />
                 </Box>
-                <Card variant="outlined" style={{backgroundColor: "#2C3333", padding: "15px"}}>
-                    <Box component="form" noValidate onSubmit={handleSubmit} >
+                <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', padding: '15px', borderRadius: '10px', maxWidth: '400px', margin: 'auto', marginTop: '50px' }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit}>
                         <Stack spacing={3}>
-                        <TextField
-                            error={isError.name}
-                            aria-label="name-field"
-                            required
-                            fullWidth
-                            helperText={isError.name && 'Name is empty!'}
-                            name="trip name"
-                            id="trip-name"
-                            label="Name of the trip"
-                            value={tripName}
-                            onChange={(e) => setTripName(e.target.value)}
-                        />
-                        <Button variant="contained" type="submit" >Create new trip</Button>
+                            <TextField
+                                error={isError.name}
+                                aria-label="name-field"
+                                required
+                                fullWidth
+                                helperText={isError.name && 'Name is empty!'}
+                                name="trip name"
+                                id="trip-name"
+                                label="Name of the trip"
+                                value={tripName}
+                                onChange={(e) => setTripName(e.target.value)}
+                                InputProps={{ style: { borderRadius: '8px', backgroundColor: 'white' } }}
+                            />
+                            <Button variant="contained" type="submit" style={{ color: 'white', borderRadius: '8px', backgroundColor: "#4d5e4a" }}>
+                                Create new trip
+                            </Button>
                         </Stack>
                     </Box>
                 </Card>
+
             </div>
         );
 

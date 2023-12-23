@@ -84,20 +84,18 @@ function TripInviteListCard() {
 
     return (
         <Box>
-            <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
+            <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', borderRadius: '10px', padding: '15px' }}>
                 <CardContent>
                     {invites.map((invite, index) => (
-                        <Card key={index} variant="outlined" style={{backgroundColor: "#2C3333", marginBottom: '10px'}}>
+                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px' }}>
                             <CardContent>
-                                <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom>
-                                    Trip: {invite.name},
-                                    organizedBy: {invite.organizer.firstName} {invite.organizer.lastName}
+                                <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                    Trip: {invite.name}, organized by: {invite.organizer.firstName} {invite.organizer.lastName}
                                 </Typography>
-                                <Button variant="contained" color="primary" style={{marginRight: '10px'}}
-                                        onClick={() => acceptInvite(invite.id)}>
+                                <Button variant="contained" color="primary" style={{ marginRight: '10px', borderRadius: '8px', backgroundColor: '#4d5e4a' }} onClick={() => acceptInvite(invite.id)}>
                                     Accept
                                 </Button>
-                                <Button variant="contained" color="secondary" onClick={() => declineInvite(invite.id)}>
+                                <Button variant="contained" color="secondary" style={{ borderRadius: '8px' }} onClick={() => declineInvite(invite.id)}>
                                     Decline
                                 </Button>
                             </CardContent>
@@ -106,6 +104,7 @@ function TripInviteListCard() {
                 </CardContent>
             </Card>
         </Box>
+
     )
 }
 

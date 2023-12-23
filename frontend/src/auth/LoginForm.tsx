@@ -1,10 +1,11 @@
 import background from "./../static/forest_bg.jpg";
-import background2 from "./../background.png";
+import background2 from "./../James_park_bg.jpg";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HOST from "../config/apiConst.tsx";
+import {introBodyStyle} from "../config/style.tsx";
 function LoginForm() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -43,9 +44,9 @@ function LoginForm() {
     };
 
     return (
-        <div className="App" style={{backgroundImage: 'url(${background2})' }}>
+        <div className="App">
             <header className="masthead" >
-                <div className="intro-body">
+                <div className="intro-body" style={introBodyStyle}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 mx-auto">

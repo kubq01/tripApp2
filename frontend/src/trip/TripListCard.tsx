@@ -101,24 +101,30 @@ function TripListCard() {
     }
 
     return (
-        <Box>
-            <Card variant="outlined" style={{backgroundColor: "#2C3333"}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+            <Card variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', borderRadius: '10px', padding: '15px' }}>
                 <CardContent>
                     {trips.map((trip, index) => (
-                        <Card key={index} variant="outlined" style={{backgroundColor: "#2C3333", marginBottom: '10px'}}>
+                        <Card key={index} variant="outlined" style={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', marginBottom: '10px', borderRadius: '8px' }}>
                             <CardContent>
-                                <Box className="d-flex flex-row">
-                                <Typography sx={{fontSize: 25}} color="text.secondary" gutterBottom>
-                                    Trip: {trip.name}, organizedBy: {getOrganizerForTrip((trip))}
-                                </Typography>
-                                    <Button variant="contained" onClick={() => goToTripDetails(trip, trip.id)}>Go to trip</Button>
+                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                        Trip: {trip.name}
+                                    </Typography>
+                                    <Typography sx={{ fontSize: 20, color: 'white', marginBottom: '8px' }} gutterBottom>
+                                        Organized by: {getOrganizerForTrip(trip)}
+                                    </Typography>
                                 </Box>
+                                <Button variant="contained" onClick={() => goToTripDetails(trip, trip.id)} style={{ backgroundColor: '#4d5e4a', borderRadius: '8px', marginTop: '10px' }}>
+                                    Go to trip
+                                </Button>
                             </CardContent>
                         </Card>
                     ))}
                 </CardContent>
             </Card>
         </Box>
+
     )
 }
 

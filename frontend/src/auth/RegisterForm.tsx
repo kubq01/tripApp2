@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import HOST from "../config/apiConst.tsx";
+import {introBodyStyle} from "../config/style.tsx";
 
 
 function RegisterForm() {
@@ -50,7 +51,7 @@ function RegisterForm() {
     return (
         <div className="App">
             <header className="masthead">
-                <div className="intro-body">
+                <div className="intro-body" style={introBodyStyle}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 mx-auto">
