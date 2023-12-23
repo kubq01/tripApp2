@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import NavBarTrip from "../core/NavBarTrip.tsx";
-import {Box, Button, Card, CardContent, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, TextField, Typography} from "@mui/material";
+import {introBodyStyle} from "../config/style.tsx";
 
 const ChatPage = () => {
     const tripId = localStorage.getItem('currentTripId');
@@ -65,49 +66,60 @@ const ChatPage = () => {
     };
 
     return (
-        <Box>
-            <NavBarTrip/>
+        <Box style={introBodyStyle}>
+            <NavBarTrip />
             <main className="App">
-                <Box display="flex" flexDirection="column" gap={4}
-                     sx={{backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2}}>
-
-                    <Box sx={{
-                        backgroundColor: "#2C3333",
-                        fontSize: 30,
-                        height: "80%",
-                        overflowY: "scroll",
-                        px: 3,
-                        py: 2
-                    }}
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap={4}
+                    sx={{ backgroundColor: "rgba(44, 51, 51, 0.8)", fontSize: 30, height: "100%", px: 3, py: 2 }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: "rgba(44, 51, 51, 0.85)",
+                            fontSize: 30,
+                            height: "85%",
+                            overflowY: "scroll",
+                            px: 3,
+                            py: 2,
+                        }}
                     >
-                        {messages
-                            //.sort((a, b) => +new Date(a.timestamp) - +new Date(b.timestamp))
-                            .map((msg, index) => (
-                                <Card sx={{
-                                    marginBottom: "10px", // Adjust the value for the desired gap
-                                }}>
-                                    <CardContent sx={{
-                                        padding: "10px",
-                                        paddingBottom: "10px !important"
-                                    }} >
-                                        <Typography style={{ textAlign: 'left'}}>
-                                            {`${msg.sender}: ${msg.content}`}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                        {messages.map((msg, index) => (
+                            <Card key={index} sx={{ marginBottom: "10px", borderRadius: '8px' }}>
+                                <CardContent sx={{ padding: "15px" }}>
+                                    <Typography variant="body1" style={{ textAlign: 'left', fontWeight: 'bold' }}>
+                                        {`${msg.sender}:`}
+                                    </Typography>
+                                    <Typography variant="body1" style={{ textAlign: 'left' }}>
+                                        {msg.content}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </Box>
 
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    />
-                    <Button variant="contained" color="secondary" onClick={() => sendMessage(message)}>Send</Button>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                        gap={2}
+                        alignItems="center"
+                        justifyContent="space-between"
+                    >
+                        <input
+                            type="text"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                        />
+                        <Button variant="contained" color="secondary" onClick={() => sendMessage(message)}>
+                            Send
+                        </Button>
+                    </Box>
                 </Box>
             </main>
         </Box>
     );
+
 };
 
 export default ChatPage;
