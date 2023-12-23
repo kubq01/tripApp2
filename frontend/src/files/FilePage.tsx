@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import {Box, Button, Card, CardContent} from "@mui/material";
+import {Box, Button, Card, CardContent, Typography} from "@mui/material";
 import NavBarTrip from "../core/NavBarTrip.tsx";
 import { useNavigate } from "react-router-dom";
 import {Plan} from "../plan/Plan";
+import {introBodyStyle} from "../config/style.tsx";
 
 export function FilePage() {
     const [file, setFile] = useState();
@@ -169,16 +170,16 @@ export function FilePage() {
 
 
     return (
-        <Box>
+        <Box style={introBodyStyle}>
             <NavBarTrip />
             <main className="App">
                 <Box
                     display="flex"
                     flexDirection="column"
                     gap={4}
-                    sx={{ backgroundColor: "#2C3333", fontSize: 30, height: "100%", px: 3, py: 2 }}
+                    sx={{ backgroundColor: 'rgba(44, 51, 51, 0.8)', fontSize: 20, height: "100%", px: 3, py: 2 }}
                 >
-                    <Card sx={{ maxWidth: '400px', margin: 'auto' }}>
+                    <Card sx={{ maxWidth: '400px', margin: 'auto', backgroundColor: "#2C3333", fontSize: 16 }}>
                         <CardContent>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <input
@@ -192,7 +193,9 @@ export function FilePage() {
                                 >
                                     <option value="">Select Category</option>
                                     {categories.map(category => (
-                                        <option key={category} value={category}>{category}</option>
+                                        <option key={category} value={category}>
+                                            {category}
+                                        </option>
                                     ))}
                                 </select>
                                 <input
@@ -202,44 +205,69 @@ export function FilePage() {
                                     onChange={(e) => setNewCategory(e.target.value)}
                                     style={{ marginBottom: '8px', fontSize: '12px' }}
                                 />
-                                <button
-                                    onClick={onFileUpload}
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
                                     style={{ fontSize: '12px', padding: '4px 8px' }}
+                                    onClick={onFileUpload}
                                 >
                                     Upload!
-                                </button>
+                                </Button>
                             </div>
                         </CardContent>
                     </Card>
                     <Box
                         sx={{
                             backgroundColor: "#2C3333",
-                            fontSize: 30,
+                            fontSize: 20,
                             height: "70%",
                             overflowY: "scroll",
                             px: 3,
                             py: 2,
-                            textAlign: "left"
+                            textAlign: "left",
                         }}
                     >
                         {Object.keys(fileList).map(category => (
                             <div key={category}>
-                                <h5>{category}</h5>
-                                <ul>
+                                <Typography variant="h5" style={{ marginBottom: '8px', color: 'white' }}>
+                                    {category}
+                                </Typography>
+                                <ul style={{ listStyleType: 'none', padding: 0 }}>
                                     {fileList[category].map(file => (
-                                        <li style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }} key={file.name}>
-                                            <span>{file.name}</span>
+                                        <li
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                marginBottom: '8px',
+                                                alignItems: 'center',
+                                            }}
+                                            key={file.name}
+                                        >
+                                            <Typography variant="body1" style={{ color: 'white' }}>
+                                                {file.name}
+                                            </Typography>
                                             <Box>
-                                            <Button variant="contained" color="secondary" style={{ marginLeft: '15px' }} onClick={() => downloadFile(file.id, file.name)}>
-                                                Download
-                                            </Button>
-                                            {isOrganizator && (
-                                                <Button variant="contained" color="secondary" style={{ marginLeft: '15px' }} onClick={() => removeFile(file.id)}>
-                                                    Delete
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    style={{ marginLeft: '15px' }}
+                                                    onClick={() => downloadFile(file.id, file.name)}
+                                                >
+                                                    Download
                                                 </Button>
-                                            )}
+                                                {isOrganizator && (
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        style={{ marginLeft: '15px' }}
+                                                        onClick={() => removeFile(file.id)}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                )}
                                             </Box>
-                                        </li>))}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         ))}
@@ -248,4 +276,5 @@ export function FilePage() {
             </main>
         </Box>
     );
+
 }
