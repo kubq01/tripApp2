@@ -177,7 +177,7 @@ public class BackendTripApp {
                     .startDate(LocalDateTime.parse("2024-03-05 10:00", formatter))
                     .description("Old town and Kazimierz neighborhood")
                     .endDate(LocalDateTime.parse("2024-03-05 18:00", formatter))
-                    .notes("We would be walking all day.\nProbably we will not spend any money but I put some amount in case.")
+fr                    .notes("the prettiest part of the old town was St. Mary's Church.\nThe Kazimierz district has a lot of history and wonderful restaurants")
                     .pricePerPerson(BigDecimal.valueOf(35.00))
                     .address("Cracow old town and Kazimierz")
                     .build();

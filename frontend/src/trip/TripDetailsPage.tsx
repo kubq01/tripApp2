@@ -139,7 +139,7 @@ function TripDetailsPage() {
             return <></>;
         } else {
             return (
-                <Card variant="outlined" style={{backgroundColor: "#2C3333", padding: "15px"}}>
+                <Card variant="outlined" style={{backgroundColor: "#2C3333", padding: "15px", width: "500px"}}>
                     <Box component="form" noValidate onSubmit={handleInvite}>
                         <Stack spacing={3}>
                             <TextField

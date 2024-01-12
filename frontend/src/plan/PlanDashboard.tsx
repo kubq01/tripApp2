@@ -17,7 +17,7 @@ function PlanDasboard() {
     let prevStartDate: null | string = null;
     const navigate = useNavigate();
     const isOrganizator = localStorage.getItem('organizator') == 'Me';
-    const [notes, setNotes] = useState<String>('No plan selected.\n Click on a plan to desplay its notes')
+    const [notes, setNotes] = useState<String>('No plan selected.\n Click on a plan to display its notes')
 
     useEffect(() => {
         const tripId = localStorage.getItem('currentTripId')
